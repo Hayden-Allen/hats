@@ -171,10 +171,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vec.cpp" />
-    <ClCompile Include="src\vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\direction.h" />
+    <ClInclude Include="src\direction_util.h" />
+    <ClInclude Include="src\hmat_util.h" />
     <ClInclude Include="src\mat.h" />
     <ClInclude Include="src\pmat.h" />
     <ClInclude Include="src\vec.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\point.h" />
     <ClInclude Include="src\vec4.h" />
+    <ClInclude Include="src\vec_util.h" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="src\mat.asm">

@@ -6,6 +6,7 @@ namespace hats
 	template<space SPACE>
 	struct alignas(16) vec4
 	{
+	public:
 		union
 		{
 			struct
@@ -14,6 +15,7 @@ namespace hats
 			};
 			f32 e[4];
 		};
+	public:
 		vec4() :
 			x(0.f), y(0.f), z(0.f), w(0.f)
 		{}
@@ -23,7 +25,7 @@ namespace hats
 		vec4(const vec4<SPACE>& o) :
 			x(o.x), y(o.y), z(o.z), w(o.w)
 		{}
-
+	public:
 		f32 operator[](const int i) const
 		{
 			HATS_ASSERT(i >= 0 && i < 4);

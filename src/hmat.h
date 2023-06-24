@@ -1,9 +1,12 @@
 #pragma once
 #include "pch.h"
 #include "mat.h"
+#include "vec_util.h"
 
 namespace hats
 {
+	template<space SPACE>
+	struct vec;
 	template<space SPACE>
 	struct direction;
 	template<space SPACE>
@@ -34,10 +37,10 @@ namespace hats
 			0, 0, 0, 1
 		)
 		{
-			// verify orthogonal basis
-			HATS_ASSERT(abs(i0 * j0 + i1 * j1 + i2 * j2) < EPSILON);
-			HATS_ASSERT(abs(i0 * k0 + i1 * k1 + i2 * k2) < EPSILON);
-			HATS_ASSERT(abs(k0 * j0 + k1 * j1 + k2 * j2) < EPSILON);
+			//// verify orthogonal basis
+			//HATS_ASSERT(abs(i0 * j0 + i1 * j1 + i2 * j2) < EPSILON);
+			//HATS_ASSERT(abs(i0 * k0 + i1 * k1 + i2 * k2) < EPSILON);
+			//HATS_ASSERT(abs(k0 * j0 + k1 * j1 + k2 * j2) < EPSILON);
 		}
 		constexpr hmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
 			 hmat<FROM, TO>
@@ -48,15 +51,14 @@ namespace hats
 			 )
 		 {}
 	public:
-		static hmat<FROM, TO> make_scale(const f32 x, const f32 y, const f32 z)
+		vec<TO> get_i() const
 		{
-			return hmat<FROM, TO>(
-				x, 0, 0, 0,
-				0, y, 0, 0,
-				0, 0, z, 0
-			);
+			return vec<TO>(i[0], i[1], i[2]);
 		}
-	public:
+		point<TO> get_t() const
+		{
+			return point<TO>(t[0], t[1], t[2]);
+		}
 		hmat<FROM, TO>& operator*=(const hmat<FROM, FROM>& o)
 		{
 			mat_multiply(i, o.i, i);
@@ -71,14 +73,25 @@ namespace hats
 		}
 		hmat<TO, FROM> invert_copy() const
 		{
-			const f32 x = i[0] * -t[0] + i[1] * -t[1] + i[2] * -t[2];
-			const f32 y = j[0] * -t[0] + j[1] * -t[1] + j[2] * -t[2];
-			const f32 z = k[0] * -t[0] + k[1] * -t[1] + k[2] * -t[2];
-			return hmat<TO, FROM>
-			(
-				i[0], i[1], i[2], x,
-				j[0], j[1], j[2], y,
-				k[0], k[1], k[2], z
+			const f32* const a = &e[0];
+			const f32* const b = &e[4];
+			const f32* const c = &e[8];
+			const f32* const d = &e[12];
+			f32 s[3] = { 0.f }, t[3] = { 0.f };
+			vec_util::cross(s, a, b);
+			vec_util::cross(t, c, d);
+			const f32 r_det = 1.f / vec_util::dot(s, c);
+			vec_util::scale(s, s, r_det);
+			vec_util::scale(t, t, r_det);
+			f32 v[3] = { 0.f };
+			vec_util::scale(v, c, r_det);
+			f32 r0[3] = { 0.f }, r1[3] = { 0.f };
+			vec_util::cross(r0, b, v);
+			vec_util::cross(r1, v, a);
+			return hmat<TO, FROM>(
+				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
+				r1[0], r1[1], r1[2], vec_util::dot(a, t),
+				s[0], s[1], s[2], -vec_util::dot(d, s)
 			);
 		}
 		hmat<FROM, TO> normalize_copy() const

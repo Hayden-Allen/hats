@@ -5,6 +5,9 @@
 #include "point.h"
 #include "vec.h"
 #include "direction.h"
+#include "hmat_util.h"
+#include "direction_util.h"
+#include "vec_util.h"
 #define PI 3.141592f
 
 using namespace hats;
@@ -202,20 +205,14 @@ shader gen_shader()
 int main()
 {
 	point<space::WORLD> cam_pos(0, 0, 5);
-	const direction<space::WORLD> cam_dir = -direction<space::WORLD>::k_hat();
-	const direction<space::WORLD> cam_up = direction<space::WORLD>::j_hat();
-	const pmat<space::CAMERA, space::CLIP> proj = projection(45, 1920.f / 1080.f, .01f, 10.f);
+	const direction<space::WORLD> cam_dir = -direction_util::k_hat<space::WORLD>();
+	const direction<space::WORLD> cam_up = direction_util::j_hat<space::WORLD>();
+	const pmat<space::CAMERA, space::CLIP> proj = projection(108 * 1080.f / 1920.f, 1920.f / 1080.f, .01f, 10.f);
 
-	const auto& i = direction<space::WORLD>(1, 0, -1);
-	const auto& j = direction<space::WORLD>(1, 1, 1);
-	const auto& k = i.cross_copy(j);
-	hmat<space::WORLD, space::OBJECT> obj(
-		i, j, k,
-		point<space::WORLD>(0, 0, 2)
-	);
-	const auto& scale = hmat<space::WORLD, space::WORLD>::make_scale(.5f, .5f, .5f);
-	obj *= scale;
-	const mat<space::OBJECT, space::WORLD>& normals = obj.normalize_copy().invert_copy();
+	hmat<space::WORLD, space::OBJECT> obj =
+		hmat_util::scale<space::WORLD, space::OBJECT>(.5f, 1.f, 1.f) *
+		hmat_util::rotation_xyz<space::WORLD>(0, PI / 4, -PI / 4)*
+		hmat_util::translation<space::WORLD>(0, 0, 2);
 
 	GLFWwindow* window = init(1920, 1080, "HATS");
 	bufs b = gen_buffers();
@@ -244,6 +241,12 @@ int main()
 		const hmat<space::WORLD, space::CAMERA> view = look_at<space::WORLD, space::CAMERA>(cam_pos, cam_dir, cam_up);
 		// TODO
 		const mat<space::OBJECT, space::CLIP> mvp = proj * view * (mat<space::OBJECT, space::WORLD>)obj.invert_copy();
+		obj = hmat_util::rotation_about_point<space::OBJECT>(
+			direction_util::i_hat<space::OBJECT>(),
+			delta,
+			point<space::OBJECT>()
+		) * obj;
+		const mat<space::OBJECT, space::WORLD>& normals = obj.normalize_copy().invert_copy();
 		glUniformMatrix4fv(glGetUniformLocation(s.prog, "u_mvp"), 1, GL_FALSE, mvp.e);
 		glUniformMatrix4fv(glGetUniformLocation(s.prog, "u_normals"), 1, GL_FALSE, normals.e);
 		glBindVertexArray(b.vao);
