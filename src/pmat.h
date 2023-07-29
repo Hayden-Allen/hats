@@ -31,7 +31,8 @@ namespace hats
 		mat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
 			mat<FROM2, TO> ret;
-			mat_multiply(ret.i, o.i, i);
+			mat_multiply(ret.i, i, o.i);
+			// mat_multiply(ret.i, o.i, i);
 			return ret;
 		}
 	};

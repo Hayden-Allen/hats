@@ -67,14 +67,16 @@ namespace hats
 		}
 		tmat<FROM, TO>& operator*=(const tmat<FROM, FROM>& o)
 		{
-			mat_multiply(i, o.i, i);
+			mat_multiply(i, i, o.i);
+			// mat_multiply(i, o.i, i);
 			return *this;
 		}
 		template<space FROM2>
 		tmat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
 			tmat<FROM2, TO> ret;
-			mat_multiply(ret.i, o.i, i);
+			// mat_multiply(ret.i, o.i, i);
+			mat_multiply(ret.i, i, o.i);
 			return ret;
 		}
 		tmat<TO, FROM> invert_copy() const
