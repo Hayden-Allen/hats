@@ -306,8 +306,9 @@ int main()
 			tmat_util::look_at<space::WORLD, space::CAMERA>(cam_pos, cam_dir, cam_up);
 		const tmat<space::OBJECT, space::CAMERA> mv = view * obj.invert_copy();
 		const mat<space::OBJECT, space::CLIP> mvp = proj * mv;
+		f32 asdf = delta * 10.f;
 		obj = tmat_util::rotation_xyz_about_point<space::OBJECT>(
-			delta, delta / 3, -delta / 2,
+			asdf, asdf / 3, -asdf / 2,
 			point<space::OBJECT>()
 		) * obj;
 		const mat<space::OBJECT, space::WORLD>& model2world = obj.normalize_copy().invert_copy();

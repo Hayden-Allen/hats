@@ -38,14 +38,17 @@ namespace hats
 		)
 		{
 			// verify orthogonal basis
-			const float idj = i0 * j0 + i1 * j1 + i2 * j2;
-			const float idk = i0 * k0 + i1 * k1 + i2 * k2;
-			const float jdk = k0 * j0 + k1 * j1 + k2 * j2;
-			// given basis not sufficiently orthogonal, renormalize (Gram-Schmidt process)
+			const f32 idj = vec_util::dot(i, j);
+			const f32 idk = vec_util::dot(i, k);
+			const f32 jdk = vec_util::dot(j, k);
+			// basis not sufficiently orthogonal, renormalize (Gram-Schmidt process)
 			if (abs(idj) > c::EPSILON || abs(idk) > c::EPSILON || abs(jdk) > c::EPSILON)
 			{
-				float ni[3] = { 0.f }, nj[3] = { 0.f }, nk[3] = { 0.f };
-				vec_util::normalize(ni, ni);
+				// v1 = i, v2 = j, v3 = k
+				f32 v1[3] = { i0, i1, i2 };
+				f32 v2[3] = { j0, j1, j2 };
+				f32 v3[3] = { k0, k1, k2 };
+				vec_util::gram_schmidt(i, j, k, v1, v2, v3);
 			}
 		}
 		constexpr tmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
@@ -81,10 +84,10 @@ namespace hats
 		}
 		tmat<TO, FROM> invert_copy() const
 		{
-			const f32* const a = &e[0];
-			const f32* const b = &e[4];
-			const f32* const c = &e[8];
-			const f32* const d = &e[12];
+			const f32* const a = i;
+			const f32* const b = j;
+			const f32* const c = k;
+			const f32* const d = t;
 			f32 s[3] = { 0.f }, t[3] = { 0.f };
 			vec_util::cross(s, a, b);
 			vec_util::cross(t, c, d);
@@ -98,15 +101,16 @@ namespace hats
 			vec_util::cross(r1, v, a);
 			return tmat<TO, FROM>(
 				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
-				r1[0], r1[1], r1[2], vec_util::dot(a, t),
-				s[0], s[1], s[2], -vec_util::dot(d, s)
+				r1[0], r1[1], r1[2],  vec_util::dot(a, t),
+				 s[0],  s[1],  s[2], -vec_util::dot(d, s)
 			);
 		}
+		// removes scale effect on any axis
 		tmat<FROM, TO> normalize_copy() const
 		{
-			const f32 mi = sqrt(i[0] * i[0] + i[1] * i[1] + i[2] * i[2]);
-			const f32 mj = sqrt(j[0] * j[0] + j[1] * j[1] + j[2] * j[2]);
-			const f32 mk = sqrt(k[0] * k[0] + k[1] * k[1] + k[2] * k[2]);
+			const f32 mi = vec_util::length(i);
+			const f32 mj = vec_util::length(j);
+			const f32 mk = vec_util::length(k);
 			return tmat<FROM, TO>(
 				i[0] / mi, j[0] / mj, k[0] / mk, t[0],
 				i[1] / mi, j[1] / mj, k[1] / mk, t[1],

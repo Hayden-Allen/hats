@@ -55,4 +55,37 @@ namespace hats::vec_util
 		dst[1] = u[1] * scale;
 		dst[2] = u[2] * scale; 
 	}
+	static __forceinline void add(f32* const dst, const f32* const src1, const f32* const src2)
+	{
+		dst[0] = src1[0] + src2[0];
+		dst[1] = src1[1] + src2[1];
+		dst[2] = src1[2] + src2[2];
+	}
+	static __forceinline void sub(f32* const dst, const f32* const src1, const f32* const src2)
+	{
+		dst[0] = src1[0] - src2[0];
+		dst[1] = src1[1] - src2[1];
+		dst[2] = src1[2] - src2[2];
+	}
+	static void gram_schmidt(f32* const e1, f32* const e2, f32* const e3, const f32* const v1, const f32* const v2, const f32* const v3)
+	{
+		// to store intermediate results
+		f32 u2[3] = { 0.f }, u3[3] = { 0.f };
+
+		// u1 = v1
+		// copy(u1, v1);
+		normalize(e1, v1);
+		// u2 = v2 - proj_v1(v2)
+		f32 tmp0[3] = { 0.f };
+		proj(tmp0, v1, v2);
+		sub(u2, v2, tmp0);
+		normalize(e2, u2);
+		// u3 = v3 - proj_v1(v3) - proj_v2(v3)
+		f32 tmp1[3] = { 0.f };
+		proj(tmp0, v1, v3);
+		proj(tmp1, u2, v3);
+		sub(u3, v3, tmp0);
+		sub(u3, u3, tmp1);
+		normalize(e3, u3);
+	}
 }

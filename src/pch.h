@@ -30,6 +30,7 @@ namespace hats
 	{
 		static constexpr f32 EPSILON = 1e-5f;
 		static constexpr f32 PI = std::numbers::pi_v<f32>;
+		static constexpr f32 TWO_PI = 2.f * PI;
 	}
 
 	static std::chrono::nanoseconds get_time()
@@ -38,11 +39,9 @@ namespace hats
 	}
 
 	template<typename T>
-	static __forceinline void swap(T* const a, T* const b)
+	static __forceinline T clean_angle(const T& theta)
 	{
-		const T tmp = *a;
-		*a = *b;
-		*b = tmp;
+		return theta - c::TWO_PI * std::floor(theta / c::TWO_PI);
 	}
 
 	enum class space
@@ -59,6 +58,10 @@ namespace hats
 		// the right-handed reference frame representing the normalized view volume resulting from the perspective divide (UNIT: NDC)
 		DEVICE = 4,
 		// the left-handed reference frame of the render target (UNIT: pixel)
-		VIEWPORT = 5
+		VIEWPORT = 5,
+
+		// spaces relative to a specific object. provided so that typed transformations can be applied at any level in the scene graph
+		PARENT = 6,
+		CHILD = 7
 	};
 }
