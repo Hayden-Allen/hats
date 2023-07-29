@@ -175,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="src\direction.h" />
     <ClInclude Include="src\direction_util.h" />
+    <ClInclude Include="src\test\vec.h" />
     <ClInclude Include="src\tmat_util.h" />
     <ClInclude Include="src\mat.h" />
     <ClInclude Include="src\pmat.h" />

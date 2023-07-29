@@ -10,6 +10,8 @@
 #include "vec_util.h"
 #include "pmat_util.h"
 
+#include "test/vec.h"
+
 using namespace hats;
 
 GLFWwindow* init(const s32 w, const s32 h, const std::string& title)
@@ -269,6 +271,8 @@ shader gen_shader()
 
 int main()
 {
+	test_vec::run();
+
 	point<space::WORLD> cam_pos(0, 0, 5);
 	const direction<space::WORLD> cam_dir = -direction_util::k_hat<space::WORLD>();
 	const direction<space::WORLD> cam_up = direction_util::j_hat<space::WORLD>();
