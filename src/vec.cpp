@@ -5,7 +5,7 @@
 namespace hats
 {
 	template<space SPACE>
-	direction<SPACE> vec<SPACE>::normalize_copy() const
+	constexpr direction<SPACE> vec<SPACE>::normalize_copy() const
 	{
 		return direction<SPACE>(x, y, z);
 	}

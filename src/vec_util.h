@@ -3,7 +3,7 @@
 
 namespace hats::vec_util
 {
-	// m is a column-order 4x4 Hamiltonian matrix, dst and v are 4-vectors
+	// m is a tmat, dst and v are vecs
 	static void transform(f32* const dst, const f32* const m, const f32* const v)
 	{
 		dst[0] = m[0] * v[0] + m[4] * v[1] + m[8] * v[2] + m[12] * v[3];

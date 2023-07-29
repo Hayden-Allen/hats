@@ -106,6 +106,12 @@ namespace hats
 			);
 		}
 		// removes scale effect on any axis
+		tmat<FROM, TO>& normalize()
+		{
+			vec_util::normalize(i, i);
+			vec_util::normalize(j, j);
+			vec_util::normalize(k, k);
+		}
 		tmat<FROM, TO> normalize_copy() const
 		{
 			const f32 mi = vec_util::length(i);
