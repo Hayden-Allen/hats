@@ -15,7 +15,7 @@ namespace hats
 	extern "C" void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2);
 
 	template<space FROM, space TO>
-	struct alignas(64) hmat : public mat<FROM, TO>
+	struct alignas(64) tmat : public mat<FROM, TO>
 	{
 		using mat<FROM, TO>::i;
 		using mat<FROM, TO>::j;
@@ -24,8 +24,8 @@ namespace hats
 		using mat<FROM, TO>::e;
 		using mat<FROM, TO>::m;
 	public:
-		constexpr hmat() : mat<FROM, TO>() {}
-		constexpr hmat
+		constexpr tmat() : mat<FROM, TO>() {}
+		constexpr tmat
 		(
 			const f32 i0, const f32 j0, const f32 k0, const f32 t0,
 			const f32 i1, const f32 j1, const f32 k1, const f32 t1,
@@ -37,13 +37,19 @@ namespace hats
 			0, 0, 0, 1
 		)
 		{
-			//// verify orthogonal basis
-			//HATS_ASSERT(abs(i0 * j0 + i1 * j1 + i2 * j2) < EPSILON);
-			//HATS_ASSERT(abs(i0 * k0 + i1 * k1 + i2 * k2) < EPSILON);
-			//HATS_ASSERT(abs(k0 * j0 + k1 * j1 + k2 * j2) < EPSILON);
+			// verify orthogonal basis
+			const float idj = i0 * j0 + i1 * j1 + i2 * j2;
+			const float idk = i0 * k0 + i1 * k1 + i2 * k2;
+			const float jdk = k0 * j0 + k1 * j1 + k2 * j2;
+			// given basis not sufficiently orthogonal, renormalize (Gram-Schmidt process)
+			if (abs(idj) > c::EPSILON || abs(idk) > c::EPSILON || abs(jdk) > c::EPSILON)
+			{
+				float ni[3] = { 0.f }, nj[3] = { 0.f }, nk[3] = { 0.f };
+				vec_util::normalize(ni, ni);
+			}
 		}
-		constexpr hmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
-			 hmat<FROM, TO>
+		constexpr tmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
+			 tmat<FROM, TO>
 			 (
 				 i[0], i[1], i[2], -(t[0] * i[0] + t[1] * i[1] + t[2] * i[2]),
 				 j[0], j[1], j[2], -(t[0] * j[0] + t[1] * j[1] + t[2] * j[2]),
@@ -59,19 +65,19 @@ namespace hats
 		{
 			return point<TO>(t[0], t[1], t[2]);
 		}
-		hmat<FROM, TO>& operator*=(const hmat<FROM, FROM>& o)
+		tmat<FROM, TO>& operator*=(const tmat<FROM, FROM>& o)
 		{
 			mat_multiply(i, o.i, i);
 			return *this;
 		}
 		template<space FROM2>
-		hmat<FROM2, TO> operator*(const hmat<FROM2, FROM>& o) const
+		tmat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
-			hmat<FROM2, TO> ret;
+			tmat<FROM2, TO> ret;
 			mat_multiply(ret.i, o.i, i);
 			return ret;
 		}
-		hmat<TO, FROM> invert_copy() const
+		tmat<TO, FROM> invert_copy() const
 		{
 			const f32* const a = &e[0];
 			const f32* const b = &e[4];
@@ -88,18 +94,18 @@ namespace hats
 			f32 r0[3] = { 0.f }, r1[3] = { 0.f };
 			vec_util::cross(r0, b, v);
 			vec_util::cross(r1, v, a);
-			return hmat<TO, FROM>(
+			return tmat<TO, FROM>(
 				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
 				r1[0], r1[1], r1[2], vec_util::dot(a, t),
 				s[0], s[1], s[2], -vec_util::dot(d, s)
 			);
 		}
-		hmat<FROM, TO> normalize_copy() const
+		tmat<FROM, TO> normalize_copy() const
 		{
 			const f32 mi = sqrt(i[0] * i[0] + i[1] * i[1] + i[2] * i[2]);
 			const f32 mj = sqrt(j[0] * j[0] + j[1] * j[1] + j[2] * j[2]);
 			const f32 mk = sqrt(k[0] * k[0] + k[1] * k[1] + k[2] * k[2]);
-			return hmat<FROM, TO>(
+			return tmat<FROM, TO>(
 				i[0] / mi, j[0] / mj, k[0] / mk, t[0],
 				i[1] / mi, j[1] / mj, k[1] / mk, t[1],
 				i[2] / mi, j[2] / mj, k[2] / mk, t[2]

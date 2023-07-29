@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "mat.h"
-#include "hmat.h"
+#include "tmat.h"
 
 namespace hats
 {
@@ -28,7 +28,7 @@ namespace hats
 		{}
 	public:
 		template<space FROM2>
-		mat<FROM2, TO> operator*(const hmat<FROM2, FROM>& o) const
+		mat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
 			mat<FROM2, TO> ret;
 			mat_multiply(ret.i, o.i, i);

@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "vec4.h"
-#include "hmat.h"
+#include "tmat.h"
 
 namespace hats
 {
@@ -38,19 +38,19 @@ namespace hats
 		constexpr bool operator==(const point<SPACE>& o) const
 		{
 			const f32 dx = x - o.x, dy = y - o.y, dz = z - o.z;
-			return	(dx < 0 ? -dx < EPSILON : dx < EPSILON) &&
-					(dy < 0 ? -dy < EPSILON : dy < EPSILON) &&
-					(dz < 0 ? -dz < EPSILON : dz < EPSILON);
+			return	(dx < 0 ? -dx < c::EPSILON : dx < c::EPSILON) &&
+					(dy < 0 ? -dy < c::EPSILON : dy < c::EPSILON) &&
+					(dz < 0 ? -dz < c::EPSILON : dz < c::EPSILON);
 		}
 		constexpr bool operator!=(const point<SPACE>& o) const
 		{
 			const f32 dx = x - o.x, dy = y - o.y, dz = z - o.z;
-			return	(dx < 0 ? -dx >= EPSILON : dx >= EPSILON) ||
-					(dy < 0 ? -dy >= EPSILON : dy >= EPSILON) ||
-					(dz < 0 ? -dz >= EPSILON : dz >= EPSILON);
+			return	(dx < 0 ? -dx >= c::EPSILON : dx >= c::EPSILON) ||
+					(dy < 0 ? -dy >= c::EPSILON : dy >= c::EPSILON) ||
+					(dz < 0 ? -dz >= c::EPSILON : dz >= c::EPSILON);
 		}
 		template<space TO>
-		point<TO> transform_copy(const hmat<SPACE, TO>& m) const
+		point<TO> transform_copy(const tmat<SPACE, TO>& m) const
 		{
 			const f32 nx = m.i[0] * x + m.j[0] * y + m.k[0] * z + m.t[0] * w;
 			const f32 ny = m.i[1] * x + m.j[1] * y + m.k[1] * z + m.t[1] * w;

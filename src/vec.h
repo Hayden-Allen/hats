@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "vec4.h"
-#include "hmat.h"
+#include "tmat.h"
 #include "vec_util.h"
 
 namespace hats
@@ -31,7 +31,7 @@ namespace hats
 			return *this;
 		}
 		template<space TO>
-		vec<TO> transform_copy(const hmat<SPACE, TO>& m) const
+		vec<TO> transform_copy(const tmat<SPACE, TO>& m) const
 		{
 			f32 t[4] = { 0.f };
 			vec_util::transform(t, m.e, e);
@@ -73,16 +73,16 @@ namespace hats
 		constexpr bool operator==(const vec<SPACE>& o) const
 		{
 			const f32 dx = x - o.x, dy = y - o.y, dz = z - o.z;
-			return	(dx < 0 ? -dx < EPSILON : dx < EPSILON) &&
-				(dy < 0 ? -dy < EPSILON : dy < EPSILON) &&
-				(dz < 0 ? -dz < EPSILON : dz < EPSILON);
+			return	(dx < 0 ? -dx < c::EPSILON : dx < c::EPSILON) &&
+				(dy < 0 ? -dy < c::EPSILON : dy < c::EPSILON) &&
+				(dz < 0 ? -dz < c::EPSILON : dz < c::EPSILON);
 		}
 		constexpr bool operator!=(const vec<SPACE>& o) const
 		{
 			const f32 dx = x - o.x, dy = y - o.y, dz = z - o.z;
-			return	(dx < 0 ? -dx >= EPSILON : dx >= EPSILON) ||
-				(dy < 0 ? -dy >= EPSILON : dy >= EPSILON) ||
-				(dz < 0 ? -dz >= EPSILON : dz >= EPSILON);
+			return	(dx < 0 ? -dx >= c::EPSILON : dx >= c::EPSILON) ||
+				(dy < 0 ? -dy >= c::EPSILON : dy >= c::EPSILON) ||
+				(dz < 0 ? -dz >= c::EPSILON : dz >= c::EPSILON);
 		}
 		virtual void print() const override
 		{

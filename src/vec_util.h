@@ -48,4 +48,11 @@ namespace hats::vec_util
 		dst[1] = src[1] / m;
 		dst[2] = src[2] / m;
 	}
+	static __forceinline void proj(f32* const dst, const f32* const u, const f32* const v)
+	{
+		const f32 scale = dot(u, v) / dot(u, u);
+		dst[0] = u[0] * scale;
+		dst[1] = u[1] * scale;
+		dst[2] = u[2] * scale; 
+	}
 }

@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <chrono>
 #include <iostream>
+#include <numeric>
+#include <numbers>
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -23,7 +26,11 @@ namespace hats
 	typedef float f32;
 	typedef double f64;
 
-	static constexpr f32 EPSILON = 1e-6;
+	namespace c
+	{
+		static constexpr f32 EPSILON = 1e-5f;
+		static constexpr f32 PI = std::numbers::pi_v<f32>;
+	}
 
 	static std::chrono::nanoseconds get_time()
 	{
