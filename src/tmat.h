@@ -123,5 +123,12 @@ namespace hats
 				i[2] / mi, j[2] / mj, k[2] / mk, t[2]
 			);
 		}
+		// removes translation
+		tmat<FROM, TO> basis_copy() const
+		{
+			tmat<FROM, TO> copy = *this;
+			copy.t[0] = copy.t[1] = copy.t[2] = 0;
+			return copy;
+		}
 	};
 }
