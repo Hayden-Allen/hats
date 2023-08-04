@@ -45,6 +45,17 @@ namespace hats
 				e[i] = o.e[i];
 		}
 	public:
+		// this returns the determinant of the 3x3 rotation submatrix
+		float determinant() const
+		{
+			return	i[0] * (j[1] * k[2] - k[1] * j[2]) -
+					j[0] * (i[1] * k[2] - k[1] * i[2]) +
+					k[0] * (i[1] * j[2] - j[1] * i[2]);
+		}
+		float determinant_sign() const
+		{
+			return signbit(determinant());
+		}
 		template<space FROM2>
 		mat<FROM2, TO> operator*(const mat<FROM2, FROM>& o) const
 		{
