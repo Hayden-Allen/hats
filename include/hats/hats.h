@@ -11,3 +11,7 @@
 #include "../../src/vec.h"
 #include "../../src/vec_base.h"
 #include "../../src/vec_util.h"
+
+#include "../../src/direction.cpp"
+#include "../../src/point.cpp"
+#include "../../src/vec.cpp"

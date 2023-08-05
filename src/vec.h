@@ -19,7 +19,8 @@ namespace hats
 		using vec_base<SPACE>::e;
 	public:
 		constexpr vec() : vec_base<SPACE>(0.f, 0.f, 0.f, 0.f) {}
-		constexpr vec(const f32 x, const f32 y, const f32 z) : vec_base<SPACE>(x, y, z, 0.f) {}
+		template<typename X, typename Y, typename Z>
+		constexpr vec(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f) {}
 		constexpr vec(const vec<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f) {}
 	public:
 		constexpr vec<SPACE> operator+(const vec<SPACE>& o) const
@@ -116,4 +117,25 @@ namespace hats
 			printf("vec<%d>\t{ %06f\t%06f\t%06f }\n", SPACE, x, y, z);
 		}
 	};
+	
+	template<space SPACE>
+	constexpr vec<SPACE> operator*(const f32 s, const vec<SPACE>& v)
+	{
+		return v * s;
+	}
+	template<space SPACE>
+	constexpr vec<SPACE>& operator*=(const f32 s, vec<SPACE>& v)
+	{
+		return v *= s;
+	}
+	template<space SPACE>
+	constexpr vec<SPACE> operator/(const f32 s, const vec<SPACE>& v)
+	{
+		return v / s;
+	}
+	template<space SPACE>
+	constexpr vec<SPACE>& operator/=(const f32 s, vec<SPACE>& v)
+	{
+		return v /= s;
+	}
 }

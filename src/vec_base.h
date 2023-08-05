@@ -9,18 +9,19 @@ namespace hats
 	public:
 		union
 		{
+			f32 e[4] = { 0.f };
 			struct
 			{
 				f32 x, y, z, w;
 			};
-			f32 e[4];
 		};
 	public:
 		constexpr vec_base() :
 			x(0.f), y(0.f), z(0.f), w(0.f)
 		{}
-		constexpr vec_base(const f32 _x, const f32 _y, const f32 _z, const f32 _w) :
-			x(_x), y(_y), z(_z), w(_w)
+		template<typename X, typename Y, typename Z, typename W>
+		constexpr vec_base(const X _x, const Y _y, const Z _z, const W _w) :
+			x((f32)_x), y((f32)_y), z((f32)_z), w((f32)_w)
 		{}
 		constexpr vec_base(const vec_base<SPACE>& o) :
 			x(o.x), y(o.y), z(o.z), w(o.w)

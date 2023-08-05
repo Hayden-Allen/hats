@@ -7,6 +7,9 @@
 namespace hats
 {
 	template<space SPACE>
+	struct vec;
+
+	template<space SPACE>
 	struct alignas(16) direction : public vec_base<SPACE>
 	{
 		using vec_base<SPACE>::x;
@@ -15,15 +18,17 @@ namespace hats
 		using vec_base<SPACE>::w;
 		using vec_base<SPACE>::e;
 	public:
-		constexpr direction(const f32 x, const f32 y, const f32 z) : vec_base<SPACE>(x, y, z, 0.f)
+		template<typename X, typename Y, typename Z>
+		constexpr direction(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
 		{
 			normalize();
 		}
-		constexpr direction(const vec_base<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f)
+		explicit constexpr direction(const vec_base<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f)
 		{
 			normalize();
 		}
 	public:
+		constexpr vec<SPACE> operator*(const f32 s) const;
 		constexpr direction<SPACE> operator-() const
 		{
 			return direction<SPACE>(-x, -y, -z);
@@ -68,7 +73,10 @@ namespace hats
 	private:
 		constexpr __forceinline void normalize()
 		{
-			if (vec_util::length2(e) - 1.f > c::EPSILON)
+			const f32 length2 = vec_util::length2(e);
+			if (length2 == 0.f)
+				return;
+			if (abs(length2 - 1.f) > c::EPSILON)
 				vec_util::normalize(e, e);
 		}
 	};

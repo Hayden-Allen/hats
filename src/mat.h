@@ -12,19 +12,19 @@ namespace hats
 	public:
 		union
 		{
+			f32 e[16] = { 0.f };
+			f32 m[4][4];
 			struct
 			{
 				f32 i[4], j[4], k[4], t[4];
 			};
-			f32 e[16];
-			f32 m[4][4];
 		};
 	public:
 		constexpr mat()
 		{
 			for (s32 i = 0; i < 4; i++)
 				for (s32 j = 0; j < 4; j++)
-					m[i][j] = (f32)(i == j);
+					m[i][j] = static_cast<f32>(i == j);
 		}
 		constexpr mat
 		(
