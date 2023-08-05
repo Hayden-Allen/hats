@@ -32,7 +32,7 @@ namespace hats::tmat_util
 			0, 0, 1, z
 		);
 	}
-	// implement separately for point<FROM> and point<TO>
+	// TODO specializations for point<FROM> and point<TO> with different signs?
 	/*template<space FROM, space TO = FROM>
 	static tmat<FROM, TO> translation(const point<FROM>& t)
 	{

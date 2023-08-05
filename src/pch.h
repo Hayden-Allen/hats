@@ -11,7 +11,7 @@
 #ifdef _DEBUG
 #define HATS_ASSERT(x) if(!(x)) { __debugbreak(); }
 #else
-#define HATS_ASSERT(x)
+#define HATS_ASSERT(x) x
 #endif
 namespace hats
 {
