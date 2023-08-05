@@ -18,21 +18,22 @@ namespace hats::tmat_util
 	static tmat<FROM, TO> scale(const f32 x, const f32 y, const f32 z)
 	{
 		return tmat<FROM, TO>(
-			1.f / x, 0, 0, 0,
-			0, 1.f / y, 0, 0,
-			0, 0, 1.f / z, 0
+			x, 0, 0, 0,
+			0, y, 0, 0,
+			0, 0, z, 0
 		);
 	}
 	template<space FROM, space TO = FROM>
 	static tmat<FROM, TO> translation(const f32 x, const f32 y, const f32 z)
 	{
 		return tmat<FROM, TO>(
-			1, 0, 0, -x,
-			0, 1, 0, -y,
-			0, 0, 1, -z
+			1, 0, 0, x,
+			0, 1, 0, y,
+			0, 0, 1, z
 		);
 	}
-	template<space FROM, space TO = FROM>
+	// implement separately for point<FROM> and point<TO>
+	/*template<space FROM, space TO = FROM>
 	static tmat<FROM, TO> translation(const point<FROM>& t)
 	{
 		return tmat<FROM, TO>(
@@ -40,7 +41,7 @@ namespace hats::tmat_util
 			0, 1, 0, -t[1],
 			0, 0, 1, -t[2]
 		);
-	}
+	}*/
 	template<space FROM, space TO = FROM>
 	static tmat<FROM, TO> rotation_x(f32 theta)
 	{
