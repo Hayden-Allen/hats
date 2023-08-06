@@ -35,11 +35,6 @@ namespace hats
 		static constexpr f32 TWO_PI = 2.f * PI;
 	}
 
-	static std::chrono::nanoseconds get_time()
-	{
-		return std::chrono::high_resolution_clock::now().time_since_epoch();
-	}
-
 	template<typename T>
 	static __forceinline T clean_angle(const T theta)
 	{
