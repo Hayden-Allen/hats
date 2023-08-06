@@ -11,7 +11,7 @@
 #ifdef _DEBUG
 #define HATS_ASSERT(x) if(!(x)) { __debugbreak(); }
 #else
-#define HATS_ASSERT(x) x
+#define HATS_ASSERT(x) (void)(x)
 #endif
 #define HATS_CAST(T, x) static_cast<T>(x)
 
