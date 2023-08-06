@@ -25,11 +25,16 @@ namespace hats
 		using mat<FROM, TO>::m;
 	public:
 		constexpr tmat() : mat<FROM, TO>() {}
+		template<
+			typename I0, typename J0, typename K0, typename T0,
+			typename I1, typename J1, typename K1, typename T1,
+			typename I2, typename J2, typename K2, typename T2
+		>
 		constexpr tmat
 		(
-			const f32 i0, const f32 j0, const f32 k0, const f32 t0,
-			const f32 i1, const f32 j1, const f32 k1, const f32 t1,
-			const f32 i2, const f32 j2, const f32 k2, const f32 t2
+			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
+			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
+			const I2 i2, const J2 j2, const K2 k2, const T2 t2
 		) : mat<FROM, TO>(
 			i0, j0, k0, t0,
 			i1, j1, k1, t1,
@@ -45,9 +50,9 @@ namespace hats
 			if (abs(idj) > c::EPSILON || abs(idk) > c::EPSILON || abs(jdk) > c::EPSILON)
 			{
 				// v1 = i, v2 = j, v3 = k
-				f32 v1[3] = { i0, i1, i2 };
-				f32 v2[3] = { j0, j1, j2 };
-				f32 v3[3] = { k0, k1, k2 };
+				f32 v1[3] = { i[0], i[1], i[2] };
+				f32 v2[3] = { j[0], j[1], j[2] };
+				f32 v3[3] = { k[0], k[1], k[2] };
 				vec_util::gram_schmidt(i, j, k, v1, v2, v3);
 			}
 		}
@@ -64,6 +69,14 @@ namespace hats
 		{
 			return vec<TO>(i[0], i[1], i[2]);
 		}
+		vec<TO> get_j() const
+		{
+			return vec<TO>(j[0], j[1], j[2]);
+		}
+		vec<TO> get_k() const
+		{
+			return vec<TO>(k[0], k[1], k[2]);
+		}
 		point<TO> get_t() const
 		{
 			return point<TO>(t[0], t[1], t[2]);
@@ -71,14 +84,12 @@ namespace hats
 		tmat<FROM, TO>& operator*=(const tmat<FROM, FROM>& o)
 		{
 			mat_multiply(i, i, o.i);
-			// mat_multiply(i, o.i, i);
 			return *this;
 		}
 		template<space FROM2>
 		tmat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
 			tmat<FROM2, TO> ret;
-			// mat_multiply(ret.i, o.i, i);
 			mat_multiply(ret.i, i, o.i);
 			return ret;
 		}
@@ -111,6 +122,7 @@ namespace hats
 			vec_util::normalize(i, i);
 			vec_util::normalize(j, j);
 			vec_util::normalize(k, k);
+			return *this;
 		}
 		tmat<FROM, TO> normalize_copy() const
 		{

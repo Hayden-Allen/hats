@@ -24,20 +24,38 @@ namespace hats
 		{
 			for (s32 i = 0; i < 4; i++)
 				for (s32 j = 0; j < 4; j++)
-					m[i][j] = static_cast<f32>(i == j);
+					m[i][j] = HATS_CAST(f32, i == j);
 		}
+		template<
+			typename I0, typename J0, typename K0, typename T0,
+			typename I1, typename J1, typename K1, typename T1,
+			typename I2, typename J2, typename K2, typename T2,
+			typename I3, typename J3, typename K3, typename T3
+		>
 		constexpr mat
 		(
-			const f32 i0, const f32 j0, const f32 k0, const f32 t0,
-			const f32 i1, const f32 j1, const f32 k1, const f32 t1,
-			const f32 i2, const f32 j2, const f32 k2, const f32 t2,
-			const f32 i3, const f32 j3, const f32 k3, const f32 t3
+			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
+			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
+			const I2 i2, const J2 j2, const K2 k2, const T2 t2,
+			const I3 i3, const J3 j3, const K3 k3, const T3 t3
 		)
 		{
-			i[0] = i0; i[1] = i1; i[2] = i2; i[3] = i3;
-			j[0] = j0; j[1] = j1; j[2] = j2; j[3] = j3;
-			k[0] = k0; k[1] = k1; k[2] = k2; k[3] = k3;
-			t[0] = t0; t[1] = t1; t[2] = t2; t[3] = t3;
+			i[0] = HATS_CAST(f32, i0);
+			j[0] = HATS_CAST(f32, j0);
+			k[0] = HATS_CAST(f32, k0);
+			t[0] = HATS_CAST(f32, t0);
+			i[1] = HATS_CAST(f32, i1);
+			j[1] = HATS_CAST(f32, j1);
+			k[1] = HATS_CAST(f32, k1);
+			t[1] = HATS_CAST(f32, t1);
+			i[2] = HATS_CAST(f32, i2);
+			j[2] = HATS_CAST(f32, j2);
+			k[2] = HATS_CAST(f32, k2);
+			t[2] = HATS_CAST(f32, t2);
+			i[3] = HATS_CAST(f32, i3);
+			j[3] = HATS_CAST(f32, j3);
+			k[3] = HATS_CAST(f32, k3);
+			t[3] = HATS_CAST(f32, t3);
 		}
 		constexpr mat(const mat<FROM, TO>& o)
 		{

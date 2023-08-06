@@ -22,13 +22,16 @@ namespace hats
 		constexpr direction(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
 		{
 			normalize();
+			// printf("MAKE DIR %f\n", vec_util::length(e));
+			// print();
 		}
 		explicit constexpr direction(const vec_base<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f)
 		{
 			normalize();
 		}
 	public:
-		constexpr vec<SPACE> operator*(const f32 s) const;
+		template<typename T>
+		constexpr vec<SPACE> operator*(const T s) const;
 		constexpr direction<SPACE> operator-() const
 		{
 			return direction<SPACE>(-x, -y, -z);
@@ -71,11 +74,13 @@ namespace hats
 			printf("dir<%d>\t{ %06f\t%06f\t%06f }\n", SPACE, x, y, z);
 		}
 	private:
-		constexpr __forceinline void normalize()
+		constexpr void normalize()
 		{
 			const f32 length2 = vec_util::length2(e);
+			// special "null direction" case
 			if (length2 == 0.f)
 				return;
+			// if length is sufficiently different from 1, renormalize
 			if (abs(length2 - 1.f) > c::EPSILON)
 				vec_util::normalize(e, e);
 		}

@@ -7,6 +7,7 @@ namespace hats
 {
 	// mat4.asm
 	extern "C" void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2);
+
 	template<space FROM, space TO>
 	struct alignas(64) pmat : public mat<FROM, TO>
 	{
@@ -17,7 +18,8 @@ namespace hats
 		using mat<FROM, TO>::e;
 		using mat<FROM, TO>::m;
 	public:
-		constexpr pmat(const f32 x, const f32 y, const f32 a, const f32 b, const f32 w) :
+		template<typename X, typename Y, typename A, typename B, typename W>
+		constexpr pmat(const X x, const Y y, const A a, const B b, const W w) :
 			mat<FROM, TO>
 			(
 				x, 0, 0, 0,
@@ -32,7 +34,6 @@ namespace hats
 		{
 			mat<FROM2, TO> ret;
 			mat_multiply(ret.i, i, o.i);
-			// mat_multiply(ret.i, o.i, i);
 			return ret;
 		}
 	};

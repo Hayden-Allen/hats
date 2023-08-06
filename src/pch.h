@@ -13,6 +13,8 @@
 #else
 #define HATS_ASSERT(x) x
 #endif
+#define HATS_CAST(T, x) static_cast<T>(x)
+
 namespace hats
 {
 	typedef int8_t	s8;
@@ -39,7 +41,7 @@ namespace hats
 	}
 
 	template<typename T>
-	static __forceinline T clean_angle(const T& theta)
+	static __forceinline T clean_angle(const T theta)
 	{
 		return theta - c::TWO_PI * std::floor(theta / c::TWO_PI);
 	}

@@ -5,8 +5,10 @@
 namespace hats
 {
 	template<space SPACE>
-	constexpr vec<SPACE> direction<SPACE>::operator*(const f32 s) const
+	template<typename T>
+	constexpr vec<SPACE> direction<SPACE>::operator*(const T s) const
 	{
-		return vec<SPACE>(x * s, y * s, z * s);
+		const f32 fs = HATS_CAST(f32, s);
+		return vec<SPACE>(x * fs, y * fs, z * fs);
 	}
 }

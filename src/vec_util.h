@@ -71,17 +71,19 @@ namespace hats::vec_util
 	{
 		// to store intermediate results
 		f32 u2[3] = { 0.f }, u3[3] = { 0.f };
+		f32 tmp0[3] = { 0.f };
+		f32 tmp1[3] = { 0.f };
 
 		// u1 = v1
 		// copy(u1, v1);
 		normalize(e1, v1);
+
 		// u2 = v2 - proj_v1(v2)
-		f32 tmp0[3] = { 0.f };
 		proj(tmp0, v1, v2);
 		sub(u2, v2, tmp0);
 		normalize(e2, u2);
+
 		// u3 = v3 - proj_v1(v3) - proj_v2(v3)
-		f32 tmp1[3] = { 0.f };
 		proj(tmp0, v1, v3);
 		proj(tmp1, u2, v3);
 		sub(u3, v3, tmp0);

@@ -20,14 +20,18 @@ namespace hats
 			x(0.f), y(0.f), z(0.f), w(0.f)
 		{}
 		template<typename X, typename Y, typename Z, typename W>
-		constexpr vec_base(const X _x, const Y _y, const Z _z, const W _w) :
-			x((f32)_x), y((f32)_y), z((f32)_z), w((f32)_w)
+		vec_base(const X _x, const Y _y, const Z _z, const W _w) :
+			x(HATS_CAST(f32, _x)),
+			y(HATS_CAST(f32, _y)),
+			z(HATS_CAST(f32, _z)),
+			w(HATS_CAST(f32, _w))
 		{}
 		constexpr vec_base(const vec_base<SPACE>& o) :
 			x(o.x), y(o.y), z(o.z), w(o.w)
 		{}
 	public:
-		f32 operator[](const int i) const
+		template<typename I>
+		f32 operator[](const I i) const
 		{
 			HATS_ASSERT(i >= 0 && i < 4);
 			return e[i];

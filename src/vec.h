@@ -20,8 +20,13 @@ namespace hats
 	public:
 		constexpr vec() : vec_base<SPACE>(0.f, 0.f, 0.f, 0.f) {}
 		template<typename X, typename Y, typename Z>
-		constexpr vec(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f) {}
+		constexpr vec(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
+		{
+			// printf("MAKE VEC\n");
+			// print();
+		}
 		constexpr vec(const vec<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f) {}
+		constexpr vec(const direction<SPACE>& d) : vec_base<SPACE>(d.x, d.y, d.z, 0.f) {}
 	public:
 		constexpr vec<SPACE> operator+(const vec<SPACE>& o) const
 		{
@@ -45,20 +50,24 @@ namespace hats
 			vec_util::sub(e, e, o.e);
 			return *this;
 		}
-		constexpr vec<SPACE> operator*(const f32 s) const
+		template<typename X>
+		constexpr vec<SPACE> operator*(const X s) const
 		{
 			return vec<SPACE>(x * s, y * s, z * s);
 		}
-		constexpr vec<SPACE>& operator*=(const f32 s)
+		template<typename X>
+		constexpr vec<SPACE>& operator*=(const X s)
 		{
 			vec_util::scale(e, e, s);
 			return *this;
 		}
-		constexpr vec<SPACE> operator/(const f32 s) const
+		template<typename X>
+		constexpr vec<SPACE> operator/(const X s) const
 		{
 			return operator*(1.f / s);
 		}
-		constexpr vec<SPACE>& operator/=(const f32 s)
+		template<typename X>
+		constexpr vec<SPACE>& operator/=(const X s)
 		{
 			return operator*=(1.f / s);
 		}
@@ -89,9 +98,10 @@ namespace hats
 		{
 			return vec_util::length(e);
 		}
-		constexpr vec<SPACE>& set_length(const f32 l)
+		template<typename X>
+		constexpr vec<SPACE>& set_length(const X l)
 		{
-			vec_util::scale(e, e, l / vec_util::length(e));
+			vec_util::scale(e, e, HATS_CAST(f32, l) / vec_util::length(e));
 			return *this;
 		}
 		template<space TO>
@@ -118,23 +128,23 @@ namespace hats
 		}
 	};
 	
-	template<space SPACE>
-	constexpr vec<SPACE> operator*(const f32 s, const vec<SPACE>& v)
+	template<space SPACE, typename X>
+	constexpr vec<SPACE> operator*(const X s, const vec<SPACE>& v)
 	{
 		return v * s;
 	}
-	template<space SPACE>
-	constexpr vec<SPACE>& operator*=(const f32 s, vec<SPACE>& v)
+	template<space SPACE, typename X>
+	constexpr vec<SPACE>& operator*=(const X s, vec<SPACE>& v)
 	{
 		return v *= s;
 	}
-	template<space SPACE>
-	constexpr vec<SPACE> operator/(const f32 s, const vec<SPACE>& v)
+	template<space SPACE, typename X>
+	constexpr vec<SPACE> operator/(const X s, const vec<SPACE>& v)
 	{
 		return v / s;
 	}
-	template<space SPACE>
-	constexpr vec<SPACE>& operator/=(const f32 s, vec<SPACE>& v)
+	template<space SPACE, typename X>
+	constexpr vec<SPACE>& operator/=(const X s, vec<SPACE>& v)
 	{
 		return v /= s;
 	}
