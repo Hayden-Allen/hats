@@ -11,8 +11,6 @@ namespace hats
 	struct direction;
 	template<space SPACE>
 	struct point;
-	// mat4.asm
-	extern "C" void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2);
 
 	template<space FROM, space TO>
 	struct alignas(64) tmat : public mat<FROM, TO>
@@ -65,17 +63,17 @@ namespace hats
 			 )
 		 {}
 	public:
-		vec<TO> get_i() const
+		direction<FROM> get_i() const
 		{
-			return vec<TO>(i[0], i[1], i[2]);
+			return direction<FROM>(i[0], i[1], i[2]);
 		}
-		vec<TO> get_j() const
+		direction<FROM> get_j() const
 		{
-			return vec<TO>(j[0], j[1], j[2]);
+			return direction<FROM>(j[0], j[1], j[2]);
 		}
-		vec<TO> get_k() const
+		direction<FROM> get_k() const
 		{
-			return vec<TO>(k[0], k[1], k[2]);
+			return direction<FROM>(k[0], k[1], k[2]);
 		}
 		point<TO> get_t() const
 		{
@@ -83,14 +81,14 @@ namespace hats
 		}
 		tmat<FROM, TO>& operator*=(const tmat<FROM, FROM>& o)
 		{
-			mat_multiply(i, i, o.i);
+			mat_multiply(e, e, o.e);
 			return *this;
 		}
 		template<space FROM2>
 		tmat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
 		{
 			tmat<FROM2, TO> ret;
-			mat_multiply(ret.i, i, o.i);
+			mat_multiply(ret.e, e, o.e);
 			return ret;
 		}
 		tmat<TO, FROM> invert_copy() const

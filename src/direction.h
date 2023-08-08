@@ -22,8 +22,6 @@ namespace hats
 		constexpr direction(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
 		{
 			normalize();
-			// printf("MAKE DIR %f\n", vec_util::length(e));
-			// print();
 		}
 		explicit constexpr direction(const vec_base<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f)
 		{
@@ -56,6 +54,11 @@ namespace hats
 			f32 t[4] = { 0.f };
 			vec_util::transform(t, m.e, e);
 			return direction<TO>(t[0], t[1], t[2]);
+		}
+		constexpr direction<SPACE>& transform(const tmat<SPACE, SPACE>& m)
+		{
+			vec_util::transform(e, m.e, e);
+			return *this;
 		}
 		constexpr direction<SPACE>& cross(const direction<SPACE>& o)
 		{

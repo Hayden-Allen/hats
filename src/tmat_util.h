@@ -32,8 +32,7 @@ namespace hats::tmat_util
 			0, 0, 1, z
 		);
 	}
-	// TODO specializations for point<FROM> and point<TO> with different signs?
-	/*template<space FROM, space TO = FROM>
+	template<space FROM, space TO = FROM>
 	static tmat<FROM, TO> translation(const point<FROM>& t)
 	{
 		return tmat<FROM, TO>(
@@ -41,12 +40,20 @@ namespace hats::tmat_util
 			0, 1, 0, -t[1],
 			0, 0, 1, -t[2]
 		);
-	}*/
+	}
+	template<space FROM, space TO = FROM>
+	static tmat<FROM, TO> translation(const point<TO>& t)
+	{
+		return tmat<FROM, TO>(
+			1, 0, 0, t[0],
+			0, 1, 0, t[1],
+			0, 0, 1, t[2]
+		);
+	}
 	template<space FROM, space TO = FROM, typename X>
 	static tmat<FROM, TO> rotation_x(const X theta)
 	{
-		const f32 ft = HATS_CAST(f32, theta);
-		ft = clean_angle(ft);
+		const f32 ft = clean_angle(HATS_CAST(f32, theta));
 		const f32 c = cosf(ft), s = sinf(ft);
 		return tmat<FROM, TO>(
 			1, 0, 0, 0,
@@ -57,8 +64,7 @@ namespace hats::tmat_util
 	template<space FROM, space TO = FROM, typename X>
 	static tmat<FROM, TO> rotation_y(const X theta)
 	{
-		const f32 ft = HATS_CAST(f32, theta);
-		ft = clean_angle(ft);
+		const f32 ft = clean_angle(HATS_CAST(f32, theta));
 		const f32 c = cosf(ft), s = sinf(ft);
 		return tmat<FROM, TO>(
 			c, 0, s, 0,
@@ -69,8 +75,7 @@ namespace hats::tmat_util
 	template<space FROM, space TO = FROM, typename X>
 	static tmat<FROM, TO> rotation_z(const X theta)
 	{
-		const f32 ft = HATS_CAST(f32, theta);
-		ft = clean_angle(ft);
+		const f32 ft = clean_angle(HATS_CAST(f32, theta));
 		const f32 c = cosf(ft), s = sinf(ft);
 		return tmat<FROM, TO>(
 			c, -s, 0, 0,

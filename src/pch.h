@@ -35,6 +35,29 @@ namespace hats
 		static constexpr f32 TWO_PI = 2.f * PI;
 	}
 
+	// TODO replace with glm one?
+	static void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2)
+	{
+		dst[0] = src1[0] * src2[0] + src1[4] * src2[1] + src1[8] * src2[2] + src1[12] * src2[3];
+		dst[1] = src1[1] * src2[0] + src1[5] * src2[1] + src1[9] * src2[2] + src1[13] * src2[3];
+		dst[2] = src1[2] * src2[0] + src1[6] * src2[1] + src1[10] * src2[2] + src1[14] * src2[3];
+		dst[3] = src1[3] * src2[0] + src1[7] * src2[1] + src1[11] * src2[2] + src1[15] * src2[3];
+
+		dst[4] = src1[0] * src2[4] + src1[4] * src2[5] + src1[8] * src2[6] + src1[12] * src2[7];
+		dst[5] = src1[1] * src2[4] + src1[5] * src2[5] + src1[9] * src2[6] + src1[13] * src2[7];
+		dst[6] = src1[2] * src2[4] + src1[6] * src2[5] + src1[10] * src2[6] + src1[14] * src2[7];
+		dst[7] = src1[3] * src2[4] + src1[7] * src2[5] + src1[11] * src2[6] + src1[15] * src2[7];
+
+		dst[8] = src1[0] * src2[8] + src1[4] * src2[9] + src1[8] * src2[10] + src1[12] * src2[11];
+		dst[9] = src1[1] * src2[8] + src1[5] * src2[9] + src1[9] * src2[10] + src1[13] * src2[11];
+		dst[10] = src1[2] * src2[8] + src1[6] * src2[9] + src1[10] * src2[10] + src1[14] * src2[11];
+		dst[11] = src1[3] * src2[8] + src1[7] * src2[9] + src1[11] * src2[10] + src1[15] * src2[11];
+
+		dst[12] = src1[0] * src2[12] + src1[4] * src2[13] + src1[8] * src2[14] + src1[12] * src2[15];
+		dst[13] = src1[1] * src2[12] + src1[5] * src2[13] + src1[9] * src2[14] + src1[13] * src2[15];
+		dst[14] = src1[2] * src2[12] + src1[6] * src2[13] + src1[10] * src2[14] + src1[14] * src2[15];
+		dst[15] = src1[3] * src2[12] + src1[7] * src2[13] + src1[11] * src2[14] + src1[15] * src2[15];
+	}
 	template<typename T>
 	static __forceinline T clean_angle(const T theta)
 	{

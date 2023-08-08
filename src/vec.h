@@ -101,6 +101,9 @@ namespace hats
 		template<typename X>
 		constexpr vec<SPACE>& set_length(const X l)
 		{
+			const f32 l2 = length2();
+			if (l2 == 0.f)
+				return *this;
 			vec_util::scale(e, e, HATS_CAST(f32, l) / vec_util::length(e));
 			return *this;
 		}

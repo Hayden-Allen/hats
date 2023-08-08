@@ -3,9 +3,6 @@
 
 namespace hats
 {
-	// mat4.asm
-	extern "C" void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2);
-
 	template<space FROM, space TO>
 	struct alignas(64) mat
 	{
