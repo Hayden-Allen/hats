@@ -18,12 +18,15 @@ namespace hats
 		using vec_base<SPACE>::w;
 		using vec_base<SPACE>::e;
 	public:
+		constexpr direction() {}
 		template<typename X, typename Y, typename Z>
-		constexpr direction(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
+		constexpr direction(const X x, const Y y, const Z z) :
+			vec_base<SPACE>(x, y, z, 0.f)
 		{
 			normalize();
 		}
-		explicit constexpr direction(const vec_base<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f)
+		explicit constexpr direction(const vec_base<SPACE>& v) :
+			vec_base<SPACE>(v.x, v.y, v.z, 0.f)
 		{
 			normalize();
 		}
@@ -88,4 +91,4 @@ namespace hats
 				vec_util::normalize(e, e);
 		}
 	};
-}
+} // namespace hats

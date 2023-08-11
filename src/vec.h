@@ -18,15 +18,19 @@ namespace hats
 		using vec_base<SPACE>::w;
 		using vec_base<SPACE>::e;
 	public:
-		constexpr vec() : vec_base<SPACE>(0.f, 0.f, 0.f, 0.f) {}
+		constexpr vec() :
+			vec_base<SPACE>(0.f, 0.f, 0.f, 0.f)
+		{}
 		template<typename X, typename Y, typename Z>
-		constexpr vec(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 0.f)
-		{
-			// printf("MAKE VEC\n");
-			// print();
-		}
-		constexpr vec(const vec<SPACE>& v) : vec_base<SPACE>(v.x, v.y, v.z, 0.f) {}
-		constexpr vec(const direction<SPACE>& d) : vec_base<SPACE>(d.x, d.y, d.z, 0.f) {}
+		constexpr vec(const X x, const Y y, const Z z) :
+			vec_base<SPACE>(x, y, z, 0.f)
+		{}
+		constexpr vec(const vec<SPACE>& v) :
+			vec_base<SPACE>(v.x, v.y, v.z, 0.f)
+		{}
+		constexpr vec(const direction<SPACE>& d) :
+			vec_base<SPACE>(d.x, d.y, d.z, 0.f)
+		{}
 	public:
 		constexpr vec<SPACE> operator+(const vec<SPACE>& o) const
 		{
@@ -130,7 +134,7 @@ namespace hats
 			printf("vec<%d>\t{ %06f\t%06f\t%06f }\n", SPACE, x, y, z);
 		}
 	};
-	
+
 	template<space SPACE, typename X>
 	constexpr vec<SPACE> operator*(const X s, const vec<SPACE>& v)
 	{
@@ -151,4 +155,4 @@ namespace hats
 	{
 		return v /= s;
 	}
-}
+} // namespace hats

@@ -19,4 +19,4 @@ namespace hats::direction_util
 	{
 		return direction<SPACE>(0, 0, 1);
 	}
-}
+} // namespace hats::direction_util

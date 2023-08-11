@@ -19,9 +19,12 @@ namespace hats
 		using vec_base<SPACE>::w;
 		using vec_base<SPACE>::e;
 	public:
-		constexpr point() : vec_base<SPACE>(0.f, 0.f, 0.f, 1.f) {}
+		constexpr point() :
+			vec_base<SPACE>(0.f, 0.f, 0.f, 1.f) {}
 		template<typename X, typename Y, typename Z>
-		constexpr point(const X x, const Y y, const Z z) : vec_base<SPACE>(x, y, z, 1.f) {}
+		constexpr point(const X x, const Y y, const Z z) :
+			vec_base<SPACE>(x, y, z, 1.f)
+		{}
 	public:
 		constexpr point<SPACE> operator+(const vec<SPACE>& v) const;
 		constexpr point<SPACE> operator+(const direction<SPACE>& d) const;
@@ -58,4 +61,4 @@ namespace hats
 			printf("point<%d>\t{ %06f\t%06f\t%06f }\n", SPACE, x, y, z);
 		}
 	};
-}
+} // namespace hats

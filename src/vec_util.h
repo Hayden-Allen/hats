@@ -53,7 +53,7 @@ namespace hats::vec_util
 		const f32 scale = dot(u, v) / dot(u, u);
 		dst[0] = u[0] * scale;
 		dst[1] = u[1] * scale;
-		dst[2] = u[2] * scale; 
+		dst[2] = u[2] * scale;
 	}
 	static inline void add(f32* const dst, const f32* const src1, const f32* const src2)
 	{
@@ -90,4 +90,4 @@ namespace hats::vec_util
 		sub(u3, u3, tmp1);
 		normalize(e3, u3);
 	}
-}
+} // namespace hats::vec_util

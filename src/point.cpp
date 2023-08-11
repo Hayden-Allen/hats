@@ -18,13 +18,17 @@ namespace hats
 	template<space SPACE>
 	constexpr point<SPACE>& point<SPACE>::operator+=(const vec<SPACE>& v)
 	{
-		x += v.x; y += v.y; z += v.z;
+		x += v.x;
+		y += v.y;
+		z += v.z;
 		return *this;
 	}
 	template<space SPACE>
 	constexpr point<SPACE>& point<SPACE>::operator+=(const direction<SPACE>& d)
 	{
-		x += d.x; y += d.y; z += d.z;
+		x += d.x;
+		y += d.y;
+		z += d.z;
 		return *this;
 	}
 	template<space SPACE>
@@ -45,13 +49,17 @@ namespace hats
 	template<space SPACE>
 	constexpr point<SPACE>& point<SPACE>::operator-=(const vec<SPACE>& v)
 	{
-		x -= v.x; y -= v.y; z -= v.z;
+		x -= v.x;
+		y -= v.y;
+		z -= v.z;
 		return *this;
 	}
 	template<space SPACE>
 	constexpr point<SPACE>& point<SPACE>::operator-=(const direction<SPACE>& d)
 	{
-		x -= d.x; y -= d.y; z -= d.z;
+		x -= d.x;
+		y -= d.y;
+		z -= d.z;
 		return *this;
 	}
-}
+} // namespace hats

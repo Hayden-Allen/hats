@@ -27,10 +27,8 @@ namespace hats
 			typename I0, typename J0, typename K0, typename T0,
 			typename I1, typename J1, typename K1, typename T1,
 			typename I2, typename J2, typename K2, typename T2,
-			typename I3, typename J3, typename K3, typename T3
-		>
-		constexpr mat
-		(
+			typename I3, typename J3, typename K3, typename T3>
+		constexpr mat(
 			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
 			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
 			const I2 i2, const J2 j2, const K2 k2, const T2 t2,
@@ -63,9 +61,9 @@ namespace hats
 		// this returns the determinant of the 3x3 rotation submatrix
 		float determinant() const
 		{
-			return	i[0] * (j[1] * k[2] - k[1] * j[2]) -
-					j[0] * (i[1] * k[2] - k[1] * i[2]) +
-					k[0] * (i[1] * j[2] - j[1] * i[2]);
+			return i[0] * (j[1] * k[2] - k[1] * j[2]) -
+				   j[0] * (i[1] * k[2] - k[1] * i[2]) +
+				   k[0] * (i[1] * j[2] - j[1] * i[2]);
 		}
 		float determinant_sign() const
 		{
@@ -89,4 +87,4 @@ namespace hats
 			printf("\t}\n");
 		}
 	};
-}
+} // namespace hats

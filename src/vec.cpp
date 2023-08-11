@@ -9,4 +9,4 @@ namespace hats
 	{
 		return direction<SPACE>(x, y, z);
 	}
-}
+} // namespace hats
