@@ -43,14 +43,14 @@ namespace hats
 			const f32 dx = abs(x - o.x);
 			const f32 dy = abs(y - o.y);
 			const f32 dz = abs(z - o.z);
-			return	dx <= c::EPSILON && dy <= c::EPSILON && dz <= c::EPSILON;
+			return dx <= c::EPSILON && dy <= c::EPSILON && dz <= c::EPSILON;
 		}
 		constexpr bool is_not_equal(const vec_base<SPACE>& o) const
 		{
 			const f32 dx = abs(x - o.x);
 			const f32 dy = abs(y - o.y);
 			const f32 dz = abs(z - o.z);
-			return	dx > c::EPSILON || dy > c::EPSILON || dz > c::EPSILON;
+			return dx > c::EPSILON || dy > c::EPSILON || dz > c::EPSILON;
 		}
 	};
-}
+} // namespace hats

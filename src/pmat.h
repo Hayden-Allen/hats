@@ -17,8 +17,7 @@ namespace hats
 	public:
 		template<typename X, typename Y, typename A, typename B, typename W>
 		constexpr pmat(const X x, const Y y, const A a, const B b, const W w) :
-			mat<FROM, TO>
-			(
+			mat<FROM, TO>(
 				x, 0, 0, 0,
 				0, y, 0, 0,
 				0, 0, a, b,
@@ -34,4 +33,4 @@ namespace hats
 			return ret;
 		}
 	};
-}
+} // namespace hats

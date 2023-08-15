@@ -22,23 +22,24 @@ namespace hats
 		using mat<FROM, TO>::e;
 		using mat<FROM, TO>::m;
 	public:
-		constexpr tmat() : mat<FROM, TO>() {}
+		constexpr tmat() :
+			mat<FROM, TO>()
+		{}
 		template<
 			typename I0, typename J0, typename K0, typename T0,
 			typename I1, typename J1, typename K1, typename T1,
-			typename I2, typename J2, typename K2, typename T2
-		>
-		constexpr tmat
-		(
+			typename I2, typename J2, typename K2, typename T2>
+		constexpr tmat(
 			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
 			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
 			const I2 i2, const J2 j2, const K2 k2, const T2 t2
-		) : mat<FROM, TO>(
-			i0, j0, k0, t0,
-			i1, j1, k1, t1,
-			i2, j2, k2, t2,
-			0, 0, 0, 1
-		)
+		) :
+			mat<FROM, TO>(
+				i0, j0, k0, t0,
+				i1, j1, k1, t1,
+				i2, j2, k2, t2,
+				0, 0, 0, 1
+			)
 		{
 			// verify orthogonal basis
 			const f32 idj = vec_util::dot(i, j);
@@ -55,13 +56,12 @@ namespace hats
 			}
 		}
 		constexpr tmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
-			 tmat<FROM, TO>
-			 (
-				 i[0], i[1], i[2], -(t[0] * i[0] + t[1] * i[1] + t[2] * i[2]),
-				 j[0], j[1], j[2], -(t[0] * j[0] + t[1] * j[1] + t[2] * j[2]),
-				 k[0], k[1], k[2], -(t[0] * k[0] + t[1] * k[1] + t[2] * k[2])
-			 )
-		 {}
+			tmat<FROM, TO>(
+				i[0], i[1], i[2], -(t[0] * i[0] + t[1] * i[1] + t[2] * i[2]),
+				j[0], j[1], j[2], -(t[0] * j[0] + t[1] * j[1] + t[2] * j[2]),
+				k[0], k[1], k[2], -(t[0] * k[0] + t[1] * k[1] + t[2] * k[2])
+			)
+		{}
 	public:
 		direction<FROM> get_i() const
 		{
@@ -110,8 +110,8 @@ namespace hats
 			vec_util::cross(r1, v, a);
 			return tmat<TO, FROM>(
 				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
-				r1[0], r1[1], r1[2],  vec_util::dot(a, t),
-				 s[0],  s[1],  s[2], -vec_util::dot(d, s)
+				r1[0], r1[1], r1[2], vec_util::dot(a, t),
+				s[0], s[1], s[2], -vec_util::dot(d, s)
 			);
 		}
 		// removes scale effect on any axis
@@ -141,4 +141,4 @@ namespace hats
 			return copy;
 		}
 	};
-}
+} // namespace hats

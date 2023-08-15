@@ -11,4 +11,4 @@ namespace hats
 		const f32 fs = HATS_CAST(f32, s);
 		return vec<SPACE>(x * fs, y * fs, z * fs);
 	}
-}
+} // namespace hats

@@ -18,4 +18,4 @@ namespace hats::pmat_util
 		const f32 w = -1.f;
 		return pmat<space::CAMERA, space::CLIP>(x, y, a, b, w);
 	}
-}
+} // namespace hats::pmat_util

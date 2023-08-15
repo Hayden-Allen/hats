@@ -124,8 +124,7 @@ namespace hats::tmat_util
 		const f32 cz = cosf(fz), sz = sinf(fz);
 		return tmat<FROM, TO>(
 			cy * cz + sx * sy * sz, -cy * sz + sx * sy * cz, cx * sy, 0,
-			cx * sz, cx * cz, -sx, 0
-			-sy * cz + sx * cy * sz, sy * sz + sx * cy * cz, cx * cy, 0
+			cx * sz, cx * cz, -sx, 0 - sy * cz + sx * cy * sz, sy * sz + sx * cy * cz, cx * cy, 0
 		);
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
@@ -295,4 +294,4 @@ namespace hats::tmat_util
 		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
-}
+} // namespace hats::tmat_util
