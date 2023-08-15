@@ -53,7 +53,7 @@ namespace hats::vec_util
 		const f32 scale = dot(u, v) / dot(u, u);
 		dst[0] = u[0] * scale;
 		dst[1] = u[1] * scale;
-		dst[2] = u[2] * scale; 
+		dst[2] = u[2] * scale;
 	}
 	static inline void add(f32* const dst, const f32* const src1, const f32* const src2)
 	{
@@ -90,4 +90,22 @@ namespace hats::vec_util
 		sub(u3, u3, tmp1);
 		normalize(e3, u3);
 	}
-}
+	// vec3 spherical lerp
+	static void slerp(f32* const dst, const f32* const v1, const f32* const v2, const f32 t)
+	{
+		const f32 angle = acosf(dot(v1, v2));
+		const f32 denom = sinf(angle);
+		if (fabs(denom) < c::EPSILON)
+		{
+			copy(dst, v1);
+			return;
+		}
+		const f32 v1s = sinf((1 - t) * angle), v2s = sin(t * angle);
+		const f32 x = (v1[0] * v1s + v2[0] * v2s) / denom;
+		const f32 y = (v1[1] * v1s + v2[1] * v2s) / denom;
+		const f32 z = (v1[2] * v1s + v2[2] * v2s) / denom;
+		dst[0] = x;
+		dst[1] = y;
+		dst[2] = z;
+	}
+} // namespace hats::vec_util
