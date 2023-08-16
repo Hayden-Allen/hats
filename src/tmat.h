@@ -26,20 +26,48 @@ namespace hats
 			mat<FROM, TO>()
 		{}
 		template<
-			typename I0, typename J0, typename K0, typename T0,
-			typename I1, typename J1, typename K1, typename T1,
-			typename I2, typename J2, typename K2, typename T2>
+			typename I0,
+			typename J0,
+			typename K0,
+			typename T0,
+			typename I1,
+			typename J1,
+			typename K1,
+			typename T1,
+			typename I2,
+			typename J2,
+			typename K2,
+			typename T2>
 		constexpr tmat(
-			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
-			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
-			const I2 i2, const J2 j2, const K2 k2, const T2 t2
-		) :
+			const I0 i0,
+			const J0 j0,
+			const K0 k0,
+			const T0 t0,
+			const I1 i1,
+			const J1 j1,
+			const K1 k1,
+			const T1 t1,
+			const I2 i2,
+			const J2 j2,
+			const K2 k2,
+			const T2 t2) :
 			mat<FROM, TO>(
-				i0, j0, k0, t0,
-				i1, j1, k1, t1,
-				i2, j2, k2, t2,
-				0, 0, 0, 1
-			)
+				i0,
+				j0,
+				k0,
+				t0,
+				i1,
+				j1,
+				k1,
+				t1,
+				i2,
+				j2,
+				k2,
+				t2,
+				0,
+				0,
+				0,
+				1)
 		{
 			// verify orthogonal basis
 			const f32 idj = vec_util::dot(i, j);
@@ -57,23 +85,31 @@ namespace hats
 		}
 		constexpr tmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
 			tmat<FROM, TO>(
-				i[0], i[1], i[2], -(t[0] * i[0] + t[1] * i[1] + t[2] * i[2]),
-				j[0], j[1], j[2], -(t[0] * j[0] + t[1] * j[1] + t[2] * j[2]),
-				k[0], k[1], k[2], -(t[0] * k[0] + t[1] * k[1] + t[2] * k[2])
-			)
+				i[0],
+				i[1],
+				i[2],
+				-(t[0] * i[0] + t[1] * i[1] + t[2] * i[2]),
+				j[0],
+				j[1],
+				j[2],
+				-(t[0] * j[0] + t[1] * j[1] + t[2] * j[2]),
+				k[0],
+				k[1],
+				k[2],
+				-(t[0] * k[0] + t[1] * k[1] + t[2] * k[2]))
 		{}
 	public:
-		direction<FROM> get_i() const
+		vec<FROM> get_i() const
 		{
-			return direction<FROM>(i[0], i[1], i[2]);
+			return vec<FROM>(i[0], i[1], i[2]);
 		}
-		direction<FROM> get_j() const
+		vec<FROM> get_j() const
 		{
-			return direction<FROM>(j[0], j[1], j[2]);
+			return vec<FROM>(j[0], j[1], j[2]);
 		}
-		direction<FROM> get_k() const
+		vec<FROM> get_k() const
 		{
-			return direction<FROM>(k[0], k[1], k[2]);
+			return vec<FROM>(k[0], k[1], k[2]);
 		}
 		point<TO> get_t() const
 		{
@@ -111,8 +147,15 @@ namespace hats
 			return tmat<TO, FROM>(
 				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
 				r1[0], r1[1], r1[2], vec_util::dot(a, t),
-				s[0], s[1], s[2], -vec_util::dot(d, s)
-			);
+				s[0], s[1], s[2], -vec_util::dot(d, s));
+		}
+		tmat<TO, FROM> transpose_copy() const
+		{
+			return tmat<TO, FROM>(
+				i[0], i[1], i[2],
+				j[0], j[1], j[2],
+				k[0], k[1], k[2],
+				t[0], t[1], t[2]);
 		}
 		// removes scale effect on any axis
 		tmat<FROM, TO>& normalize()
@@ -130,8 +173,7 @@ namespace hats
 			return tmat<FROM, TO>(
 				i[0] / mi, j[0] / mj, k[0] / mk, t[0],
 				i[1] / mi, j[1] / mj, k[1] / mk, t[1],
-				i[2] / mi, j[2] / mj, k[2] / mk, t[2]
-			);
+				i[2] / mi, j[2] / mj, k[2] / mk, t[2]);
 		}
 		// removes translation
 		tmat<FROM, TO> basis_copy() const

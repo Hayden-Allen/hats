@@ -89,6 +89,11 @@ namespace hats
 			return vec_base<SPACE>::is_not_equal(o);
 		}
 	public:
+		constexpr vec<SPACE>& normalize()
+		{
+			vec_util::normalize(e, e);
+			return *this;
+		}
 		constexpr direction<SPACE> normalize_copy() const;
 		constexpr f32 dot(const vec<SPACE>& o) const
 		{
