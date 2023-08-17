@@ -51,6 +51,14 @@ namespace hats
 			return vec_base<SPACE>::is_not_equal(o);
 		}
 	public:
+		constexpr f32 dot(const direction<SPACE>& o) const
+		{
+			return vec_util::dot(e, o.e);
+		}
+		constexpr f32 angle_to(const direction<SPACE>& o) const
+		{
+			return std::acos(dot(o));
+		}
 		template<space TO>
 		constexpr direction<TO> transform_copy(const tmat<SPACE, TO>& m) const
 		{
