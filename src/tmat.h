@@ -127,6 +127,7 @@ namespace hats
 			mat_multiply(ret.e, e, o.e);
 			return ret;
 		}
+		// TODO add invert() and transpose() when FROM == TO?
 		tmat<TO, FROM> invert_copy() const
 		{
 			const f32* const a = i;
