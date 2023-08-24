@@ -127,6 +127,14 @@ namespace hats
 			mat_multiply(ret.e, e, o.e);
 			return ret;
 		}
+		template<space FROM2, space TO2>
+		tmat<FROM2, TO2> cast_copy() const
+		{
+			return tmat<FROM2, TO2>(
+				i[0], j[0], k[0], t[0],
+				i[1], j[1], k[1], t[1],
+				i[2], j[2], k[2], t[2]);
+		}
 		// TODO add invert() and transpose() when FROM == TO?
 		tmat<TO, FROM> invert_copy() const
 		{

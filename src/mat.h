@@ -24,16 +24,39 @@ namespace hats
 					m[i][j] = HATS_CAST(f32, i == j);
 		}
 		template<
-			typename I0, typename J0, typename K0, typename T0,
-			typename I1, typename J1, typename K1, typename T1,
-			typename I2, typename J2, typename K2, typename T2,
-			typename I3, typename J3, typename K3, typename T3>
+			typename I0,
+			typename J0,
+			typename K0,
+			typename T0,
+			typename I1,
+			typename J1,
+			typename K1,
+			typename T1,
+			typename I2,
+			typename J2,
+			typename K2,
+			typename T2,
+			typename I3,
+			typename J3,
+			typename K3,
+			typename T3>
 		constexpr mat(
-			const I0 i0, const J0 j0, const K0 k0, const T0 t0,
-			const I1 i1, const J1 j1, const K1 k1, const T1 t1,
-			const I2 i2, const J2 j2, const K2 k2, const T2 t2,
-			const I3 i3, const J3 j3, const K3 k3, const T3 t3
-		)
+			const I0 i0,
+			const J0 j0,
+			const K0 k0,
+			const T0 t0,
+			const I1 i1,
+			const J1 j1,
+			const K1 k1,
+			const T1 t1,
+			const I2 i2,
+			const J2 j2,
+			const K2 k2,
+			const T2 t2,
+			const I3 i3,
+			const J3 j3,
+			const K3 k3,
+			const T3 t3)
 		{
 			i[0] = HATS_CAST(f32, i0);
 			j[0] = HATS_CAST(f32, j0);
