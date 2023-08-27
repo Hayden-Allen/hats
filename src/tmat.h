@@ -25,6 +25,9 @@ namespace hats
 		constexpr tmat() :
 			mat<FROM, TO>()
 		{}
+		constexpr tmat(const f32 (&elements)[16]) :
+			mat<FROM, TO>(elements)
+		{}
 		template<
 			typename I0,
 			typename J0,

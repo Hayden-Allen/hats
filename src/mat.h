@@ -23,6 +23,11 @@ namespace hats
 				for (s32 j = 0; j < 4; j++)
 					m[i][j] = HATS_CAST(f32, i == j);
 		}
+		constexpr mat(const f32 (&elements)[16])
+		{
+			for (s32 i = 0; i < 16; i++)
+				e[i] = elements[i];
+		}
 		template<
 			typename I0,
 			typename J0,
