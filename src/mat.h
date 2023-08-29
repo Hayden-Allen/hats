@@ -105,6 +105,17 @@ namespace hats
 			mat_multiply(ret.i, i, o.i);
 			return ret;
 		}
+		bool operator==(const mat<FROM, TO>& o) const
+		{
+			for (s32 i = 0; i < 16; i++)
+				if (e[i] != o.e[i])
+					return false;
+			return true;
+		}
+		bool operator!=(const mat<FROM, TO>& o) const
+		{
+			return !operator==(o);
+		}
 		void print() const
 		{
 			printf("mat<%d,%d>{\n", FROM, TO);
