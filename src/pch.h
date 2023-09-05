@@ -5,9 +5,6 @@
 #include <numeric>
 #include <numbers>
 
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-
 #ifdef _DEBUG
 #define HATS_ASSERT(x) if(!(x)) { __debugbreak(); }
 #else
