@@ -25,7 +25,7 @@ namespace hats
 		constexpr tmat() :
 			mat<FROM, TO>()
 		{}
-		constexpr tmat(const f32 (&elements)[16]) :
+		constexpr tmat(const f32(&elements)[16]) :
 			mat<FROM, TO>(elements)
 		{}
 		template<
@@ -164,10 +164,10 @@ namespace hats
 		tmat<TO, FROM> transpose_copy() const
 		{
 			return tmat<TO, FROM>(
-				i[0], i[1], i[2],
-				j[0], j[1], j[2],
-				k[0], k[1], k[2],
-				t[0], t[1], t[2]);
+				i[0], i[1], i[2], t[0],
+				j[0], j[1], j[2], t[1],
+				k[0], k[1], k[2], t[2]
+			);
 		}
 		// removes scale effect on any axis
 		tmat<FROM, TO>& normalize()
