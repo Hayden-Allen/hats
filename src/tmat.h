@@ -13,7 +13,7 @@ namespace hats
 	struct point;
 
 	template<space FROM, space TO>
-	struct alignas(64) tmat : public mat<FROM, TO>
+	struct tmat : public mat<FROM, TO>
 	{
 		using mat<FROM, TO>::i;
 		using mat<FROM, TO>::j;
@@ -25,7 +25,7 @@ namespace hats
 		constexpr tmat() :
 			mat<FROM, TO>()
 		{}
-		constexpr tmat(const f32(&elements)[16]) :
+		constexpr tmat(const f32 (&elements)[16]) :
 			mat<FROM, TO>(elements)
 		{}
 		template<
@@ -166,8 +166,7 @@ namespace hats
 			return tmat<TO, FROM>(
 				i[0], i[1], i[2], t[0],
 				j[0], j[1], j[2], t[1],
-				k[0], k[1], k[2], t[2]
-			);
+				k[0], k[1], k[2], t[2]);
 		}
 		// removes scale effect on any axis
 		tmat<FROM, TO>& normalize()

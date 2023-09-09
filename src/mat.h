@@ -4,7 +4,7 @@
 namespace hats
 {
 	template<space FROM, space TO>
-	struct alignas(64) mat
+	struct mat
 	{
 	public:
 		union
