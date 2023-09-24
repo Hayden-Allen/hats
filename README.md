@@ -1,3 +1,4 @@
+
 # Hayden Allen Typed-Space (HATS)
 ## What is HATS?
 *The devil wears many HATS. Incorrect math is no longer one of them.*
@@ -66,12 +67,16 @@ Let's take a simple example. All matrices are stored in column-major order, as i
 Say you have a game object `obj` with a transform matrix `mat`. You have another transform matrix, `rot`, describing a rotation. You want to apply `rot` to `mat` such that `obj` has been rotated by `rot`. At this point, any reader with a cursory understanding of graphics programming will likely say something along the lines of "that's so simple, this is a fundamental operation, I could do this in my sleep, why am I reading this, etc, etc".
 
 Such a reader might suggest the following operation:
-> `mat = mat * rot`
+> ```cpp
+> mat = mat * rot
+> ```
 
 And they would be correct.
 
-A different reader, with a similar background but different interpretation of the problem could suggest a slightly different operation:
-> `mat = rot * mat`
+A different reader, with a similar background but different interpretation of the problem, could suggest a slightly different operation:
+> ```cpp
+> mat = rot * mat
+> ```
 
 And they would **also** be correct.
 
@@ -151,12 +156,12 @@ Let's write the example above using HATS types and see what difference it makes:
 
 The above code shows several important things:
 
-- How using HATS types encodes the assumptions about mathematical operations into the code itself, which is good for readability and forcing you to think about what you're doing as you're trying to do it.
+- How using HATS types encodes the assumptions about mathematical operations into the code itself, which is good for readability and forces you to think about what you're doing as you're trying to do it.
 - Some examples of the compiler catching incorrect math.
-- How "pure" operations, such as the rotation, are encoded in HATS types. These operations can be though of as changing the meaning of a space directly, rather than transforming between spaces. In this case, the **from** and **to** space of the matrix are the same, showing that the rotation is applied to a space itself. In `rotate_entity_local`, `rot` can be thought of as rotating **local** space directly. In `rotate_entity_world`, `rot` can be thought of as performing an additional rotation in the conversion between **local** and **world** space.
+- How "pure" operations, such as the rotation, are encoded in HATS types. These operations can be thought of as changing the meaning of a space directly, rather than transforming between spaces. In this case, the `FROM` and `TO` space of the matrix are the same, showing that the rotation is applied to a space itself. In `rotate_entity_local`, `rot` can be thought of as rotating `OBJECT` space directly. In `rotate_entity_world`, `rot` can be thought of as adding an additional rotation in the conversion between `OBJECT` and `WORLD` space.
 
 ## HATS Matrix Types
-Matrices in HATS are aware of their spatial context. Namely, every matrix knows the space it transforms **from** and the space it transforms **to**. In the example above, `mat` transforms **from local** space **to world** space. How these spaces are encoded is the key to their usefulness.
+Matrices in HATS are aware of their spatial context. Namely, every matrix knows the space it transforms `FROM` and the space it transforms `TO`. In the example above, `mat` transforms **from** `OBJECT` **to** `WORLD` space. How these spaces are encoded is the key to their usefulness.
 
 Spaces are used to ensure mathematical validity on all operations involving HATS types. Spaces are enumerated and stored in HATS types as template parameters (see [limitations](#limitations)). This means two things:
 
@@ -171,7 +176,7 @@ These features are good because:
 There are 3 types of matrices in HATS: `tmat`, `pmat`, and `mat`. They all represent the same underlying structure (a 4x4 matrix of float32's) but have some nice features for different use cases.
 
 ### `tmat`
-Transformation MATrices represent the standard translate/rotate/scale matrix used by most game objects. It's upper-left 3x3 submatrix and the upper 3 entries of its rightmost column give the orthogonal basis vectors of its space and position of its origin, respectively, relative to the space it transforms **to**.  A `tmat` looks like this:
+Transformation MATrices represent the standard translate/rotate/scale matrix used by most game objects. It's upper-left 3x3 submatrix and the upper 3 entries of its rightmost column give the orthogonal basis vectors of its space and position of its origin, respectively, relative to the space it transforms `TO`.  A `tmat` looks like this:
   > | `i ` | `j ` | `k ` | `t ` |
   > |--|--|--|--|
   > | `x0` | `y0` | `z0` | `t0` |
@@ -179,16 +184,16 @@ Transformation MATrices represent the standard translate/rotate/scale matrix use
   > | `x2` | `y2` | `z2` | `t2` |
   > | `0 ` | `0 ` | `0 ` | `1 ` |
 
-  For a matrix transforming **from local** **to world** space:
-  > - `i`, `j`, and `k` are **world**-space vectors describing the `x`, `y`, and `z` basis vectors of **local** space relative to **world** space
-  > - `t` is a **world**-space point describing the translation of **local** space relative to **world** space
+  For a matrix transforming **from** `OBJECT` **to** `WORLD` space:
+  > - `i`, `j`, and `k` are `WORLD`-space vectors describing the `x`, `y`, and `z` basis vectors of `OBJECT` space relative to `WORLD` space
+  > - `t` is a `WORLD`-space point describing the translation of `OBJECT` space relative to `WORLD` space
 
   An important property of this layout of is that any operation between two `tmat`s always produces another `tmat`. Upon construction, the basis of a `tmat` is automatically renormalized using Gram-Schmidt if it is not within acceptable error bounds. The advantage of this is that the user doesn't have to worry about compounding floating-point rounding error. The disadvantages are:
   > - `tmat`s do not support shear transformations: their basis vectors must be orthogonal
   > - there is some imposed runtime overhead to renormalize (but there would be anyway; ignoring shears, you always want to normalize your basis, HATS just does it for you)
   
 ### `pmat`
-Projection MATrices represent perspective projections. It converts from some space (usually **camera** space) to **clip** space. A perspective projection is described by four quantities: 
+Projection MATrices represent perspective projections. It converts from some space (usually `CAMERA`) to `CLIP` space. A perspective projection is described by four quantities: 
   > 1. `fov = y-axis fov`
   > 2. `ar = aspect ratio`
   > 3. `n = distance to near plane`
@@ -221,7 +226,7 @@ MATrices represent arbitrary 4x4 matrices with no format restrictions. These sho
   > ```
 
 ## HATS Vectors
-Transformation matrices that are compiler validated to be mathematically correct are great, but pretty pointless if you have nothing to transform. HATS provides various [vector types](#hats-vector-types) with similar type-system-encoded spatial context. Unlike matrices, which transform between spaces, vectors exist in a single space (so only have one space as a template parameter).
+Transformation matrices that are compiler validated to be mathematically correct are great, but pretty pointless if you have nothing to transform. Similar to matrices, HATS provides various [vector types](#hats-vector-types) with type-system-encoded spatial context. Unlike matrices, which transform between spaces, vectors exist in a single space (so only have one template parameter).
 
 Vectors in a space `S` can be transformed by matrices transforming **from** `S` **to** any other space. More formally, `mat<FROM, TO> * vec<FROM>` is valid for any `FROM` and any `TO`. Conceptually, such an operation takes a vector in space `FROM` and returns the representation of that vector in space `TO`.
 
