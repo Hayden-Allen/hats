@@ -102,17 +102,17 @@ namespace hats
 				-(t[0] * k[0] + t[1] * k[1] + t[2] * k[2]))
 		{}
 	public:
-		vec<FROM> get_i() const
+		vec<TO> get_i() const
 		{
-			return vec<FROM>(i[0], i[1], i[2]);
+			return vec<TO>(i[0], i[1], i[2]);
 		}
-		vec<FROM> get_j() const
+		vec<TO> get_j() const
 		{
-			return vec<FROM>(j[0], j[1], j[2]);
+			return vec<TO>(j[0], j[1], j[2]);
 		}
-		vec<FROM> get_k() const
+		vec<TO> get_k() const
 		{
-			return vec<FROM>(k[0], k[1], k[2]);
+			return vec<TO>(k[0], k[1], k[2]);
 		}
 		point<TO> get_t() const
 		{
@@ -129,6 +129,10 @@ namespace hats
 			tmat<FROM2, TO> ret;
 			mat_multiply(ret.e, e, o.e);
 			return ret;
+		}
+		vec<TO> operator*(const vec<FROM>& v) const
+		{
+			return v.transform_copy(*this);
 		}
 		template<space FROM2, space TO2>
 		tmat<FROM2, TO2> cast_copy() const
