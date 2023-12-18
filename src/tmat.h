@@ -86,7 +86,7 @@ namespace hats
 				vec_util::gram_schmidt(i, j, k, v1, v2, v3);
 			}
 		}
-		constexpr tmat(const direction<FROM>& i, const direction<FROM>& j, const direction<FROM>& k, const point<FROM>& t) :
+		constexpr tmat(direction<FROM> const& i, direction<FROM> const& j, direction<FROM> const& k, point<FROM> const& t) :
 			tmat<FROM, TO>(
 				i[0],
 				i[1],
@@ -118,19 +118,19 @@ namespace hats
 		{
 			return point<TO>(t[0], t[1], t[2]);
 		}
-		tmat<FROM, TO>& operator*=(const tmat<FROM, FROM>& o)
+		tmat<FROM, TO>& operator*=(tmat<FROM, FROM> const& o)
 		{
 			mat_multiply(e, e, o.e);
 			return *this;
 		}
 		template<space FROM2>
-		tmat<FROM2, TO> operator*(const tmat<FROM2, FROM>& o) const
+		tmat<FROM2, TO> operator*(tmat<FROM2, FROM> const& o) const
 		{
 			tmat<FROM2, TO> ret;
 			mat_multiply(ret.e, e, o.e);
 			return ret;
 		}
-		vec<TO> operator*(const vec<FROM>& v) const
+		vec<TO> operator*(vec<FROM> const& v) const
 		{
 			return v.transform_copy(*this);
 		}
@@ -145,10 +145,10 @@ namespace hats
 		// TODO add invert() and transpose() when FROM == TO?
 		tmat<TO, FROM> invert_copy() const
 		{
-			const f32* const a = i;
-			const f32* const b = j;
-			const f32* const c = k;
-			const f32* const d = t;
+			f32 const* const a = i;
+			f32 const* const b = j;
+			f32 const* const c = k;
+			f32 const* const d = t;
 			f32 s[3] = { 0.f }, t[3] = { 0.f };
 			vec_util::cross(s, a, b);
 			vec_util::cross(t, c, d);
@@ -161,6 +161,29 @@ namespace hats
 			vec_util::cross(r0, b, v);
 			vec_util::cross(r1, v, a);
 			return tmat<TO, FROM>(
+				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
+				r1[0], r1[1], r1[2], vec_util::dot(a, t),
+				s[0], s[1], s[2], -vec_util::dot(d, s));
+		}
+		template<space FROM2, space TO2>
+		tmat<FROM2, TO2> invert_cast_copy() const
+		{
+			f32 const* const a = i;
+			f32 const* const b = j;
+			f32 const* const c = k;
+			f32 const* const d = t;
+			f32 s[3] = { 0.f }, t[3] = { 0.f };
+			vec_util::cross(s, a, b);
+			vec_util::cross(t, c, d);
+			const f32 r_det = 1.f / vec_util::dot(s, c);
+			vec_util::scale(s, s, r_det);
+			vec_util::scale(t, t, r_det);
+			f32 v[3] = { 0.f };
+			vec_util::scale(v, c, r_det);
+			f32 r0[3] = { 0.f }, r1[3] = { 0.f };
+			vec_util::cross(r0, b, v);
+			vec_util::cross(r1, v, a);
+			return tmat<FROM2, TO2>(
 				r0[0], r0[1], r0[2], -vec_util::dot(b, t),
 				r1[0], r1[1], r1[2], vec_util::dot(a, t),
 				s[0], s[1], s[2], -vec_util::dot(d, s));
