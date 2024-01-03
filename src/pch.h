@@ -6,19 +6,23 @@
 #include <numbers>
 
 #ifdef _DEBUG
-#define HATS_ASSERT(x) if(!(x)) { __debugbreak(); }
+#	define HATS_ASSERT(x)  \
+		if (!(x))           \
+		{                   \
+			__debugbreak(); \
+		}
 #else
-#define HATS_ASSERT(x) (void)(x)
+#	define HATS_ASSERT(x) (void)(x)
 #endif
 #define HATS_CAST(T, x) static_cast<T>(x)
 
 namespace hats
 {
-	typedef int8_t	s8;
+	typedef int8_t s8;
 	typedef int16_t s16;
 	typedef int32_t s32;
 	typedef int64_t s64;
-	typedef uint8_t	 u8;
+	typedef uint8_t u8;
 	typedef uint16_t u16;
 	typedef uint32_t u32;
 	typedef uint64_t u64;
@@ -27,13 +31,13 @@ namespace hats
 
 	namespace c
 	{
-		static constexpr f32 EPSILON = 1e-5f;
-		static constexpr f32 PI = std::numbers::pi_v<f32>;
-		static constexpr f32 TWO_PI = 2.f * PI;
-	}
+		static f32 constexpr EPSILON = 1e-5f;
+		static f32 constexpr PI = std::numbers::pi_v<f32>;
+		static f32 constexpr TWO_PI = 2.f * PI;
+	} // namespace c
 
 	// TODO replace with glm one?
-	static void mat_multiply(f32* const dst, const f32* const src1, const f32* const src2)
+	static void mat_multiply(f32* const dst, f32 const* const src1, f32 const* const src2)
 	{
 		dst[0] = src1[0] * src2[0] + src1[4] * src2[1] + src1[8] * src2[2] + src1[12] * src2[3];
 		dst[1] = src1[1] * src2[0] + src1[5] * src2[1] + src1[9] * src2[2] + src1[13] * src2[3];
@@ -56,7 +60,7 @@ namespace hats
 		dst[15] = src1[3] * src2[12] + src1[7] * src2[13] + src1[11] * src2[14] + src1[15] * src2[15];
 	}
 	template<typename T>
-	static __forceinline T clean_angle(const T theta)
+	static T clean_angle(T const theta)
 	{
 		return theta - c::TWO_PI * std::floor(theta / c::TWO_PI);
 	}
@@ -81,4 +85,4 @@ namespace hats
 		PARENT = 6,
 		CHILD = 7
 	};
-}
+} // namespace hats
