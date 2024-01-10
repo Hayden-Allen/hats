@@ -139,5 +139,24 @@ namespace hats
 			ret[8] = k[2];
 			return ret;
 		}
+		std::vector<float> mat3x4() const
+		{
+			std::vector<float> ret(12);
+			ret[0] = i[0];
+			ret[1] = i[1];
+			ret[2] = i[2];
+			ret[3] = 0;
+
+			ret[4] = j[0];
+			ret[5] = j[1];
+			ret[6] = j[2];
+			ret[7] = 0;
+
+			ret[8] = k[0];
+			ret[9] = k[1];
+			ret[10] = k[2];
+			ret[11] = 0;
+			return ret;
+		}
 	};
 } // namespace hats
