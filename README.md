@@ -176,7 +176,7 @@ These features are good because:
 There are 3 types of matrices in HATS: `tmat`, `pmat`, and `mat`. They all represent the same underlying structure (a 4x4 matrix of float32's) but have some nice features for different use cases.
 
 ### `tmat`
-Transformation MATrices represent the standard translate/rotate/scale matrix used by most game objects. It's upper-left 3x3 submatrix and the upper 3 entries of its rightmost column give the orthogonal basis vectors of its space and position of its origin, respectively, relative to the space it transforms `TO`.  A `tmat` looks like this:
+Transformation MATrices represent the standard translate/rotate/scale matrix used by most game objects. It's upper-left 3x3 submatrix and the upper 3 entries of its rightmost column give the orthogonal basis vectors of its space and position of its origin, respectively, relative to the space it transforms `TO`. A `tmat` looks like this:
   > | `i ` | `j ` | `k ` | `t ` |
   > |--|--|--|--|
   > | `x0` | `y0` | `z0` | `t0` |
