@@ -7,11 +7,17 @@
 namespace hats::tmat_util
 {
 	template<space FROM, space TO>
-	static tmat<FROM, TO> look_at(const point<FROM>& eye, const direction<FROM>& look, const direction<FROM>& up)
+	static tmat<FROM, TO> zeros()
 	{
-		const direction<FROM>& i = look.cross_copy(up);
-		const direction<FROM>& j = i.cross_copy(look);
-		const direction<FROM>& k = -look;
+		f32 const zeros[16] = { 0 };
+		return tmat<space::OBJECT, space::WORLD>(zeros);
+	}
+	template<space FROM, space TO>
+	static tmat<FROM, TO> look_at(point<FROM> const& eye, direction<FROM> const& look, direction<FROM> const& up)
+	{
+		direction<FROM> const& i = look.cross_copy(up);
+		direction<FROM> const& j = i.cross_copy(look);
+		direction<FROM> const& k = -look;
 		return tmat<FROM, TO>(i, j, k, eye);
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
@@ -31,7 +37,7 @@ namespace hats::tmat_util
 			0, 0, 1, z);
 	}
 	template<space FROM, space TO = FROM>
-	static tmat<FROM, TO> translation(const point<FROM>& t)
+	static tmat<FROM, TO> translation(point<FROM> const& t)
 	{
 		return tmat<FROM, TO>(
 			1, 0, 0, -t[0],
@@ -39,7 +45,7 @@ namespace hats::tmat_util
 			0, 0, 1, -t[2]);
 	}
 	template<space FROM, space TO = FROM>
-	static tmat<FROM, TO> translation(const point<TO>& t)
+	static tmat<FROM, TO> translation(point<TO> const& t)
 	{
 		return tmat<FROM, TO>(
 			1, 0, 0, t[0],
@@ -161,7 +167,7 @@ namespace hats::tmat_util
 			-sy, sx * cy, cx * cy, 0);
 	}
 	template<space FROM, space TO = FROM, typename X>
-	static tmat<FROM, TO> rotation(const direction<FROM>& a, const X theta)
+	static tmat<FROM, TO> rotation(direction<FROM> const& a, const X theta)
 	{
 		const f32 ft = clean_angle(HATS_CAST(f32, theta));
 		const f32 c = cosf(ft), s = sinf(ft);
@@ -180,105 +186,105 @@ namespace hats::tmat_util
 			0);
 	}
 	template<space FROM, space TO = FROM, typename X>
-	static tmat<FROM, TO> rotation_x_about_point(const X theta, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_x_about_point(const X theta, point<FROM> const& p)
 	{
 		const f32 ft = clean_angle(HATS_CAST(f32, theta));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_x<FROM, FROM>(ft);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_x<FROM, FROM>(ft);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X>
-	static tmat<FROM, TO> rotation_y_about_point(const X theta, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_y_about_point(const X theta, point<FROM> const& p)
 	{
 		const f32 ft = clean_angle(HATS_CAST(f32, theta));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_y<FROM, FROM>(ft);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_y<FROM, FROM>(ft);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X>
-	static tmat<FROM, TO> rotation_z_about_point(const X theta, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_z_about_point(const X theta, point<FROM> const& p)
 	{
 		const f32 ft = clean_angle(HATS_CAST(f32, theta));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_z<FROM, FROM>(ft);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_z<FROM, FROM>(ft);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X>
-	static tmat<FROM, TO> rotation_about_point(const direction<FROM>& a, const X theta, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_about_point(direction<FROM> const& a, const X theta, point<FROM> const& p)
 	{
 		const f32 ft = clean_angle(HATS_CAST(f32, theta));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation<FROM, FROM>(a, ft);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation<FROM, FROM>(a, ft);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_xyz_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_xyz_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_xyz<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_xyz<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_xzy_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_xzy_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_xzy<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_xzy<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_yxz_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_yxz_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_yxz<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_yxz<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_yzx_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_yzx_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_yzx<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_yzx<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_zxy_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_zxy_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_zxy<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_zxy<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 	template<space FROM, space TO = FROM, typename X, typename Y, typename Z>
-	static tmat<FROM, TO> rotation_zyx_about_point(const X x, const Y y, const Z z, const point<FROM>& p)
+	static tmat<FROM, TO> rotation_zyx_about_point(const X x, const Y y, const Z z, point<FROM> const& p)
 	{
 		const f32 fx = clean_angle(HATS_CAST(f32, x));
 		const f32 fy = clean_angle(HATS_CAST(f32, y));
 		const f32 fz = clean_angle(HATS_CAST(f32, z));
-		const tmat<FROM, TO>& t = translation<FROM, TO>(p);
-		const tmat<FROM, FROM> r = rotation_zyx<FROM, FROM>(fx, fy, fz);
-		const tmat<FROM, FROM> mt = translation<FROM, FROM>(-p);
+		tmat<FROM, TO> const& t = translation<FROM, TO>(p);
+		tmat<FROM, FROM> const r = rotation_zyx<FROM, FROM>(fx, fy, fz);
+		tmat<FROM, FROM> const mt = translation<FROM, FROM>(-p);
 		return t * r * mt;
 	}
 } // namespace hats::tmat_util
