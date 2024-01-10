@@ -80,7 +80,7 @@ namespace hats
 			k[3] = HATS_CAST(f32, k3);
 			t[3] = HATS_CAST(f32, t3);
 		}
-		constexpr mat(const mat<FROM, TO>& o)
+		constexpr mat(mat<FROM, TO> const& o)
 		{
 			for (s32 i = 0; i < 16; i++)
 				e[i] = o.e[i];
@@ -98,21 +98,21 @@ namespace hats
 			return signbit(determinant());
 		}
 		template<space FROM2>
-		mat<FROM2, TO> operator*(const mat<FROM2, FROM>& o) const
+		mat<FROM2, TO> operator*(mat<FROM2, FROM> const& o) const
 		{
 			mat<FROM2, TO> ret;
 			// mat_multiply(ret.i, o.i, i);
 			mat_multiply(ret.i, i, o.i);
 			return ret;
 		}
-		bool operator==(const mat<FROM, TO>& o) const
+		bool operator==(mat<FROM, TO> const& o) const
 		{
 			for (s32 i = 0; i < 16; i++)
 				if (e[i] != o.e[i])
 					return false;
 			return true;
 		}
-		bool operator!=(const mat<FROM, TO>& o) const
+		bool operator!=(mat<FROM, TO> const& o) const
 		{
 			return !operator==(o);
 		}
@@ -124,6 +124,20 @@ namespace hats
 				printf("\t\t%06f\t%06f\t%06f\t%06f\n", i[row], j[row], k[row], t[row]);
 			}
 			printf("\t}\n");
+		}
+		std::vector<float> mat3() const
+		{
+			std::vector<float> ret(9);
+			ret[0] = i[0];
+			ret[1] = i[1];
+			ret[2] = i[2];
+			ret[3] = j[0];
+			ret[4] = j[1];
+			ret[5] = j[2];
+			ret[6] = k[0];
+			ret[7] = k[1];
+			ret[8] = k[2];
+			return ret;
 		}
 	};
 } // namespace hats
