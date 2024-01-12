@@ -4,6 +4,7 @@
 #include <iostream>
 #include <numeric>
 #include <numbers>
+#include <vector>
 
 #ifdef _DEBUG
 #	define HATS_ASSERT(x)  \
