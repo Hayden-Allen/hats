@@ -134,6 +134,14 @@ namespace hats
 		{
 			return v.transform_copy(*this);
 		}
+		direction<TO> operator*(direction<FROM> const& d) const
+		{
+			return d.transform_copy(*this);
+		}
+		point<TO> operator*(point<FROM> const& p) const
+		{
+			return p.transform_copy(*this);
+		}
 		template<space FROM2, space TO2>
 		tmat<FROM2, TO2> cast_copy() const
 		{
