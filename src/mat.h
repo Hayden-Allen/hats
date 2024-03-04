@@ -125,37 +125,43 @@ namespace hats
 			}
 			printf("\t}\n");
 		}
-		std::vector<float> mat3() const
+		void mat3(f32* const out) const
 		{
-			std::vector<float> ret(9);
-			ret[0] = i[0];
-			ret[1] = i[1];
-			ret[2] = i[2];
-			ret[3] = j[0];
-			ret[4] = j[1];
-			ret[5] = j[2];
-			ret[6] = k[0];
-			ret[7] = k[1];
-			ret[8] = k[2];
+			out[0] = i[0];
+			out[1] = i[1];
+			out[2] = i[2];
+			out[3] = j[0];
+			out[4] = j[1];
+			out[5] = j[2];
+			out[6] = k[0];
+			out[7] = k[1];
+			out[8] = k[2];
+		}
+		std::vector<f32> mat3() const
+		{
+			std::vector<f32> ret(9);
+			mat3(ret.data());
 			return ret;
 		}
-		std::vector<float> mat3x4() const
+		void mat3x4(f32* const out) const
 		{
-			std::vector<float> ret(12);
-			ret[0] = i[0];
-			ret[1] = i[1];
-			ret[2] = i[2];
-			ret[3] = 0;
-
-			ret[4] = j[0];
-			ret[5] = j[1];
-			ret[6] = j[2];
-			ret[7] = 0;
-
-			ret[8] = k[0];
-			ret[9] = k[1];
-			ret[10] = k[2];
-			ret[11] = 0;
+			out[0] = i[0];
+			out[1] = i[1];
+			out[2] = i[2];
+			out[3] = 0;
+			out[4] = j[0];
+			out[5] = j[1];
+			out[6] = j[2];
+			out[7] = 0;
+			out[8] = k[0];
+			out[9] = k[1];
+			out[10] = k[2];
+			out[11] = 0;
+		}
+		std::vector<f32> mat3x4() const
+		{
+			std::vector<f32> ret(12);
+			mat3x4(ret.data());
 			return ret;
 		}
 	};
