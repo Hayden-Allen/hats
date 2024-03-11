@@ -228,5 +228,34 @@ namespace hats
 			copy.t[0] = copy.t[1] = copy.t[2] = 0;
 			return copy;
 		}
+		tmat<FROM, TO> extract_translation() const
+		{
+			auto const& t = get_t();
+			return tmat<FROM, TO>(
+				1, 0, 0, t.x,
+				0, 1, 0, t.y,
+				0, 0, 1, t.z);
+		}
+		tmat<FROM, TO> extract_scale() const
+		{
+			f32 const x = get_i().length();
+			f32 const y = get_j().length();
+			f32 const z = get_k().length();
+			return tmat<FROM, TO>(
+				x, 0, 0, 0,
+				0, y, 0, 0,
+				0, 0, z, 0);
+		}
+		tmat<FROM, TO> extract_translation_scale() const
+		{
+			f32 const x = get_i().length();
+			f32 const y = get_j().length();
+			f32 const z = get_k().length();
+			auto const& t = get_t();
+			return tmat<FROM, TO>(
+				x, 0, 0, t.x,
+				0, y, 0, t.y,
+				0, 0, z, t.z);
+		}
 	};
 } // namespace hats
